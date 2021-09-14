@@ -2,11 +2,15 @@ var createError = require('http-errors');
 var express = require('express');
 var router = express.Router();
 var path = require('path');
+//跨域资源请求
+const cors = require('cors')
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+//此处需要进行mysql连接操作，已安装mysql模块，，
+var sqlQuery = require('./module/lcMysql')
 
 var app = express();
 
