@@ -1,4 +1,4 @@
-﻿let mysql = require('mysql2')
+﻿let mysql = require('mysql')
 
 let options = {
     host: "139.155.247.54",
@@ -17,7 +17,10 @@ con.connect((err) => {
     if (err) {
         console.log(err)
     } else {
-        console.log('数据库连接成功')
+        console.log('数据库连接成功');
+        // sqlQuery("select * from user").then((res,err)=>{
+        //   console.log(res);
+        // });
     }
 })
 

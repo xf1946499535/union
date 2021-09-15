@@ -118,3 +118,4 @@ apidoc -i routes/ -o public/apidoc/
 > 运行
 
 生成成功后，我们就可以测试运行api文档了，访问路径：**[http://localhost:3000/apidoc/index.html](https://link.jianshu.com/?t=http%3A%2F%2Flocalhost%3A3000%2Fapidoc%2Findex.html)**
+
