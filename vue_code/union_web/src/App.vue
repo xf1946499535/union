@@ -3,7 +3,11 @@
     <div id="nav">
       <!-- <router-link to="/">Home</router-link> | -->
       <!-- <router-link to="/about">About</router-link> -->
-    <div class="box">文档哇阿达萨达sa</div>
+      <el-progress
+        :percentage="100"
+        :format="format"
+        :color="$store.state.settings.theme"
+      ></el-progress>
     </div>
     <theme-picker @change="themeChange"></theme-picker>
     <!-- <router-view/> -->
@@ -16,6 +20,9 @@ export default {
     ThemePicker
   },
   methods: {
+    format(percentage) {
+      return percentage === 100 ? "满" : `${percentage}%`;
+    },
     themeChange(val) {
       this.$store.dispatch("changeSetting", {
         key: "theme",
@@ -27,8 +34,8 @@ export default {
 </script>
 
 <style lang="scss">
-@import '@/styles/element-variables.scss';
-$theme:var(theme);
+@import "@/styles/element-variables.scss";
+$theme: var(theme);
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -46,10 +53,10 @@ $theme:var(theme);
       }
     }
   }
-  .box{
+  .box {
     width: 100px;
     height: 100px;
-    background-color: $UN_theme_main
+    background-color: $UN_theme_main;
   }
 }
 </style>
