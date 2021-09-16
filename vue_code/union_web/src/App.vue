@@ -12,12 +12,15 @@
     <theme-picker @change="themeChange"></theme-picker>
     <!-- <router-view/> -->
   </div>
-</template>
+</template> ``
 <script>
 import ThemePicker from "@/components/ThemePicker";
 export default {
   components: {
     ThemePicker
+  },
+  created(){
+    this.localtheme()
   },
   methods: {
     format(percentage) {
@@ -28,6 +31,13 @@ export default {
         key: "theme",
         value: val
       });
+      localStorage.setItem('theme',val);//保存选中的主题色
+    },
+    //获取本地保存的主题色
+    localtheme(){
+      if (localStorage.getItem("theme") != null) {
+        this.themeChange(localStorage.getItem("theme"))
+      }
     }
   }
 };

@@ -14,7 +14,7 @@ const ORIGINAL_THEME = '#409EFF' // default color
  
 export default {
   created(){
-    console.log(this.$store);
+    
   },
   data() {
     return {
