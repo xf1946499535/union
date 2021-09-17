@@ -5,12 +5,7 @@ const settings = {
     theme: variables.theme
   },
   getters:{
-    set_theme(val){
-      state.theme=val;
-    },
-    get_theme(){
-      return state.theme;
-    }
+
   },
   mutations: {
     CHANGE_SETTING: (state, { key, value }) => {
