@@ -1,10 +1,18 @@
 import axios from "@/utils/http";
 
 
-export const querynewdetall  = (id) => {
+export const querynewdetall  = (query) => {
     return axios.request({
         url: 'small4/shop/goods/detail',
-        method: 'post',
-        params: id
+        method: 'get',
+        params: query
     })
+}
+
+export const update  = (data) => {
+  return axios.request({
+      url: 'small4/shop/goods/detail',
+      method: 'post',
+      data: data
+  })
 }
