@@ -13,9 +13,13 @@ const routes = [{
     component: Home,
     children: [{
       path: "/createWo",
-      component: () => import( /* webpackChunkName: "about" */ '../views/home/createWo.vue')
-
-    }]
+      component: () => import( /* webpackChunkName: "about" */ '../views/woEdit/createWo.vue')
+    },
+    {
+      path: "/woQuery",
+      component: () => import( /* webpackChunkName: "about" */ '../views/woEdit/woQuery.vue')
+    },
+  ]
   },
   {
     path: '/login',

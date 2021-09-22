@@ -29,37 +29,32 @@
         </el-form-item>
 
         <el-form-item label="预计完成时间">
-          <el-col :span="11">
-            <el-date-picker
-              type="date"
-              placeholder="选择日期"
-              v-model="form.date1"
-              style="width: 100%"
-            ></el-date-picker>
-          </el-col>
-          <el-col class="line" :span="2">-</el-col>
-          <el-col :span="11">
-            <el-time-picker
-              placeholder="选择时间"
-              v-model="form.date2"
-              style="width: 100%"
-            ></el-time-picker>
-          </el-col>
+
+    <el-date-picker
+      v-model="form.date"
+      type="date"
+      placeholder="选择日期">
+    </el-date-picker>
+
+
+        </el-form-item>
+
+        <el-form-item>
+          <quill-editor
+            v-model="content"
+            ref="myQuillEditor"
+            :options="editorOption"
+            @focus="onEditorFocus($event)"
+            @blur="onEditorBlur($event)"
+            @change="onEditorChange($event)"
+          >
+          </quill-editor>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="newcreateWo">立即创建</el-button>
           <el-button>取消</el-button>
         </el-form-item>
       </el-form>
-      <quill-editor
-        v-model="content"
-        ref="myQuillEditor"
-        :options="editorOption"
-        @focus="onEditorFocus($event)"
-        @blur="onEditorBlur($event)"
-        @change="onEditorChange($event)"
-      >
-      </quill-editor>
     </div>
   </div>
 
@@ -80,47 +75,47 @@ export default {
         modules: {
           toolbar: [
             ["bold", "italic", "underline", "strike"], // toggled buttons
-            ["blockquote", "code-block"],
-          ],
-        },
+            ["blockquote", "code-block"]
+          ]
+        }
       },
       form: {
         name: "",
         project: {
           project_id: null,
-          project_name: "",
+          project_name: ""
         },
         coder_ids: [],
-        date1: "",
-        date2: "",
+        date: "",
+
         delivery: false,
         type: [],
         resource: "",
-        desc: "",
+        desc: ""
       },
       options: [
         {
           coder_id: 1,
-          coder_name: "黄金糕",
+          coder_name: "黄金糕"
         },
         {
           coder_id: 2,
-          coder_name: "双皮奶",
+          coder_name: "双皮奶"
         },
         {
           coder_id: 3,
-          coder_name: "蚵仔煎",
+          coder_name: "蚵仔煎"
         },
         {
           coder_id: 4,
-          coder_name: "龙须面",
+          coder_name: "龙须面"
         },
         {
           coder_id: 5,
-          coder_name: "北京烤鸭",
-        },
+          coder_name: "北京烤鸭"
+        }
       ],
-      value: "",
+      value: ""
     };
   },
 
@@ -137,6 +132,7 @@ export default {
     onEditorFocus(editor) {},
     // 富文本编辑器 内容改变事件
     onEditorChange(editor) {},
+    //新建表单
     newcreateWo() {
       console.log("submit!");
       let data = {
@@ -144,17 +140,25 @@ export default {
         creator_id: JSON.parse(sessionStorage.getItem("me")).id,
         detail: this.content,
         project_id: this.form.project.project_id,
-        distributPeople: this.form.coder_ids,
+        distributPeople: this.form.coder_ids
       };
       newWo(data)
-        .then((res) => {
+        .then(res => {
           console.log(res);
+          this.$notify.error({
+            title: "操作成功",
+            message: "新的工单已经完成创建"
+          });
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
+          this.$notify.error({
+            title: "操作失败",
+            message: "请重新操作或者联系管理员"
+          });
         });
-    },
-  },
+    }
+  }
 };
 </script>
 

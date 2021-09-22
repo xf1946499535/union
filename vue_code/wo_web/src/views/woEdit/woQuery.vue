@@ -1,0 +1,43 @@
+<template>
+  <el-container>
+    <el-header>
+      <div class="w">
+        <el-switch
+        v-model="drawer"
+        @click="drawer = true"
+        active-text="打开筛选器"
+      >
+      </el-switch
+    >
+      </div>
+     </el-header>
+    <el-main><woInfo /></el-main>
+    <el-drawer size="50rem" title="我是标题" :visible.sync="drawer" :with-header="false">
+      <span><woList/></span>
+    </el-drawer>
+  </el-container>
+</template>
+
+<script>
+import woInfo from "@/components/wo_ct/woInfo.vue";
+import woList from "@/components/wo_ct/woList.vue";
+export default {
+  components: {
+    woInfo,
+    woList
+  },
+  data() {
+    return {
+      drawer: false,
+      woInfo_query: {}
+    };
+  }
+};
+</script>
+
+<style lang="scss">
+.w{
+  width: 100rem;
+  margin: 2rem auto;
+}
+</style>
