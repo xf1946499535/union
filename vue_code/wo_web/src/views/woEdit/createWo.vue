@@ -19,24 +19,22 @@
             placeholder="请选择coder"
           >
             <el-option
-              v-for="item in options"
-              :key="item.coder_id"
-              :label="item.coder_name"
-              :value="item.coder_id"
+              v-for="item in coders"
+              :key="item.id + 'coder'"
+              :label="item.admin_name"
+              :value="item.id"
             >
             </el-option>
           </el-select>
         </el-form-item>
 
         <el-form-item label="预计完成时间">
-
-    <el-date-picker
-      v-model="form.date"
-      type="date"
-      placeholder="选择日期">
-    </el-date-picker>
-
-
+          <el-date-picker
+            v-model="form.date"
+            type="date"
+            placeholder="选择日期"
+          >
+          </el-date-picker>
         </el-form-item>
 
         <el-form-item>
@@ -63,7 +61,11 @@
 
 <script>
 import { newWo } from "@/api/wo";
+import { getUserList } from "@/api/users";
 export default {
+  created() {
+    this.getAllUser();
+  },
   mounted() {
     this.editor = this.$refs.myQuillEditor.quill;
   },
@@ -93,28 +95,7 @@ export default {
         resource: "",
         desc: ""
       },
-      options: [
-        {
-          coder_id: 1,
-          coder_name: "黄金糕"
-        },
-        {
-          coder_id: 2,
-          coder_name: "双皮奶"
-        },
-        {
-          coder_id: 3,
-          coder_name: "蚵仔煎"
-        },
-        {
-          coder_id: 4,
-          coder_name: "龙须面"
-        },
-        {
-          coder_id: 5,
-          coder_name: "北京烤鸭"
-        }
-      ],
+      coders: [],
       value: ""
     };
   },
@@ -124,6 +105,17 @@ export default {
     delete this.editor;
   },
   methods: {
+    //获取用户列表
+    getAllUser() {
+      getUserList()
+        .then(res => {
+          this.coders = res.data;
+          console.log(res);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
     // 准备富文本编辑器
     onEditorReady(editor) {},
     // 富文本编辑器 失去焦点事件

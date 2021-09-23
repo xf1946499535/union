@@ -8,3 +8,12 @@ export const getUserByToken = (query) => {
         params: query
     })
 }
+
+////获取用户列表
+export const getUserList = (data) => {
+  return h_axios.request({
+      url: '/admin/getAllInfoOfAdmin',
+      method: 'post',
+      data: data
+  })
+}
