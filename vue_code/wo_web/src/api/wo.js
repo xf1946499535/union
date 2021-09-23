@@ -8,3 +8,12 @@ export const newWo = (data) => {
         data: data
     })
 }
+
+//获取工单列表
+export const woList = (data) => {
+  return h_axios.request({
+      url: '/wo/quaryByInfo',
+      method: 'post',
+      data: data
+  })
+}

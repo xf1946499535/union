@@ -64,6 +64,11 @@ export default {
     };
   },
   methods: {
+    //登录前检查本地token与服务端token一致性
+    tokencheck(){
+
+    },
+
     loginsubmit(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
