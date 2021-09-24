@@ -110,10 +110,9 @@ export default {
       getUserList()
         .then(res => {
           this.coders = res.data;
-          console.log(res);
         })
         .catch(err => {
-          console.log(err);
+          this.$message.error("获取用户列表失败");
         });
     },
     // 准备富文本编辑器
@@ -136,18 +135,14 @@ export default {
       };
       newWo(data)
         .then(res => {
-          console.log(res);
-          this.$notify.error({
-            title: "操作成功",
-            message: "新的工单已经完成创建"
+          this.$message({
+            message: "操作成功，工单完成创建",
+            type: "success"
           });
         })
         .catch(err => {
           console.log(err);
-          this.$notify.error({
-            title: "操作失败",
-            message: "请重新操作或者联系管理员"
-          });
+          this.$message.error("操作失败，工单创建失败");
         });
     }
   }

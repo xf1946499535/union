@@ -3,11 +3,18 @@
     <el-cascader :options="conditions" v-model="screen" @change="change" :show-all-levels="false"></el-cascader>
 
     <el-table :data="woList" height="800" border style="width: 100%">
-      <el-table-column prop="date" label="日期" width="180"> </el-table-column>
-      <el-table-column prop="name" label="姓名" width="180"> </el-table-column>
-      <el-table-column prop="address" label="地址"> </el-table-column>
-      <el-table-column label="操作">
-        <template slot-scope="scope">
+ 
+      <el-table-column prop="title" label="工单名" width="180"> </el-table-column>
+      <el-table-column prop="id" label="工单号" width="180"> </el-table-column>    
+         <el-table-column prop="status" label="进度" width="180"> </el-table-column>
+      <el-table-column prop="creator_id" label="处理人"> </el-table-column>
+        <el-table-column prop="project_id" label="所属项目"> </el-table-column>
+            <el-table-column prop="creator_id" label="处理人"> </el-table-column>
+        <el-table-column prop="project_id" label="所属项目"> </el-table-column>
+            <el-table-column prop="creator_id" label="处理人"> </el-table-column>
+        <el-table-column prop="project_id" label="所属项目"> </el-table-column>
+      <el-table-column label="操作" fixed="right">
+        <template slot-scope="scope" >
           <el-button size="mini" @click="handleEdit(scope.row)">编辑</el-button>
         </template>
       </el-table-column>
@@ -35,7 +42,8 @@ export default {
     getWoList(woQuey = {}) {
       woList(woQuey)
         .then(res => {
-          console.log(res);
+          this.woList=res.data
+          console.log(res.data);
         })
         .catch(err => {
           console.log(err);

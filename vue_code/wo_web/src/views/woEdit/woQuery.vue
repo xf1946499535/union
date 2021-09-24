@@ -30,14 +30,35 @@ export default {
     return {
       drawer: false,
       //表单信息
-      woInfo_query: {}
+      woInfo_query: {
+        title: "",
+        project: {
+          project_id: null,
+          project_name: "项目1"
+        },
+        handler: {},
+        handlers:[],
+        create_time: "",
+        estimate_time:"",
+        over_time:"",
+        status:"",
+        delivery: false,
+        type: [],
+        resource: "",
+        desc: "",
+        content:"",
+      },
     };
   },
 methods:{
   //从woList组件拿到工单信息，发送给woInfo组件
-  getWodetail(detail){
-    console.log(detail);
-    this.woInfo_query=detail
+  getWodetail(wodetail){
+    console.log(wodetail);
+    this.woInfo_query.title=wodetail.title
+    this.woInfo_query.project.project_id=wodetail.project_id
+     this.woInfo_query.status=wodetail.status
+      this.woInfo_query.content=wodetail.detail
+
   },
   //关闭抽屉
   offDrawer(){

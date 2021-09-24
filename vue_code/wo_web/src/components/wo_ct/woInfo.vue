@@ -1,28 +1,31 @@
 <template>
   <div class="createWo">
     <div class="w">
-      <el-form ref="form" :model="form" label-width="80px">
+      <el-form ref="form" :model="woDetail" label-width="80px">
         <el-form-item label="工单名称">
-          <el-input v-model="form.name"></el-input>
+          <el-input v-model="woDetail.title"></el-input>
         </el-form-item>
         <el-form-item label="所属项目">
-          <el-select v-model="form.project.project_id" placeholder="请选择项目">
+          <el-select
+            v-model="woDetail.project.project_id"
+            placeholder="请选择项目"
+          >
             <el-option label="项目1" value="1"></el-option>
             <el-option label="项目2" value="2"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="分配">
           <el-select
-            v-model="form.coder_ids"
+            v-model="woDetail.handlers.handle_id"
             multiple
             filterable
             placeholder="请选择coder"
           >
             <el-option
-              v-for="item in options"
+              v-for="item in hander_options"
               :key="item.coder_id"
-              :label="item.coder_name"
-              :value="item.coder_id"
+              :label="item.admin_name"
+              :value="item.id"
             >
             </el-option>
           </el-select>
@@ -30,17 +33,18 @@
 
         <el-form-item label="预计时间">
           <el-date-picker
-            v-model="form.date"
+            v-model="woDetail.estimate_time"
             type="date"
             placeholder="选择日期"
           >
           </el-date-picker>
         </el-form-item>
-        <el-form-item label="完成时间">
-        </el-form-item>
+        <el-form-item label="完成时间">{{
+          woDetail.over_time ? woDetail.over_time : "暂未完成"
+        }}</el-form-item>
         <el-form-item>
           <quill-editor
-            v-model="content"
+            v-model="woDetail.content"
             ref="myQuillEditor"
             :options="editorOption"
             @focus="onEditorFocus($event)"
@@ -50,7 +54,7 @@
           </quill-editor>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="newcreateWo">保存</el-button>
+          <el-button type="primary" @click="updateWo">保存</el-button>
           <el-button>取消</el-button>
         </el-form-item>
       </el-form>
@@ -62,14 +66,18 @@
 
 <script>
 import { newWo } from "@/api/wo";
+import { getUserList } from "@/api/users";
 export default {
+  props: ["woDetail"],
+  created(){
+    this.getHandlers()
+  },
   mounted() {
     this.editor = this.$refs.myQuillEditor.quill;
   },
   components: {},
   data() {
     return {
-      content: null,
       editorOption: {
         modules: {
           toolbar: [
@@ -78,44 +86,23 @@ export default {
           ]
         }
       },
-      form: {
-        name: "",
-        project: {
-          project_id: null,
-          project_name: ""
-        },
-        coder_ids: [],
-        date: "",
-
-        delivery: false,
-        type: [],
-        resource: "",
-        desc: ""
-      },
-      options: [
-        {
-          coder_id: 1,
-          coder_name: "黄金糕"
-        },
-        {
-          coder_id: 2,
-          coder_name: "双皮奶"
-        },
-        {
-          coder_id: 3,
-          coder_name: "蚵仔煎"
-        },
-        {
-          coder_id: 4,
-          coder_name: "龙须面"
-        },
-        {
-          coder_id: 5,
-          coder_name: "北京烤鸭"
-        }
+      hander_options: [
       ],
       value: ""
     };
+  },
+  computed: {
+    //处理表单文本
+    handerText(){
+      switch (key) {
+        case value:
+          
+          break;
+      
+        default:
+          break;
+      }
+    }
   },
 
   beforeDestroy() {
@@ -131,8 +118,8 @@ export default {
     onEditorFocus(editor) {},
     // 富文本编辑器 内容改变事件
     onEditorChange(editor) {},
-    //新建表单
-    newcreateWo() {
+    //保存当前表单
+    updateWo() {
       console.log("submit!");
       let data = {
         title: this.form.name,
@@ -141,20 +128,31 @@ export default {
         project_id: this.form.project.project_id,
         distributPeople: this.form.coder_ids
       };
-      newWo(data)
+      // newWo(data)
+      //   .then(res => {
+      //     console.log(res);
+      //     this.$notify.error({
+      //       title: "操作成功",
+      //       message: "新的工单已经完成创建"
+      //     });
+      //   })
+      //   .catch(err => {
+      //     console.log(err);
+      //     this.$notify.error({
+      //       title: "操作失败",
+      //       message: "请重新操作或者联系管理员"
+      //     });
+      //   });
+    },
+    //获取用户列表
+    getHandlers() {
+      getUserList()
         .then(res => {
           console.log(res);
-          this.$notify.error({
-            title: "操作成功",
-            message: "新的工单已经完成创建"
-          });
+          this.hander_options = res.data;
         })
         .catch(err => {
           console.log(err);
-          this.$notify.error({
-            title: "操作失败",
-            message: "请重新操作或者联系管理员"
-          });
         });
     }
   }
