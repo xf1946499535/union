@@ -79,7 +79,7 @@ export default {
           login(query)
             .then((res) => {
               console.log(res);
-              localStorage.setItem("token", "dasdasdsadasd");
+              localStorage.setItem("token", res.data.token);
               sessionStorage.setItem("me", JSON.stringify(res.data.data));
               this.$router.push("/");
             })

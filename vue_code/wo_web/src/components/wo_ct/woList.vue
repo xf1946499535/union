@@ -1,20 +1,26 @@
 <template>
   <div class="wolist">
-    <el-cascader :options="conditions" v-model="screen" @change="change" :show-all-levels="false"></el-cascader>
+    <el-cascader
+      :options="conditions"
+      v-model="screen"
+      @change="change"
+      :show-all-levels="false"
+    ></el-cascader>
 
     <el-table :data="woList" height="800" border style="width: 100%">
- 
-      <el-table-column prop="title" label="工单名" width="180"> </el-table-column>
-      <el-table-column prop="id" label="工单号" width="180"> </el-table-column>    
-         <el-table-column prop="status" label="进度" width="180"> </el-table-column>
+      <el-table-column prop="title" label="工单名" width="180">
+      </el-table-column>
+      <el-table-column prop="id" label="工单号" width="180"> </el-table-column>
+      <el-table-column prop="status" label="进度" width="180">
+      </el-table-column>
       <el-table-column prop="creator_id" label="处理人"> </el-table-column>
-        <el-table-column prop="project_id" label="所属项目"> </el-table-column>
-            <el-table-column prop="creator_id" label="处理人"> </el-table-column>
-        <el-table-column prop="project_id" label="所属项目"> </el-table-column>
-            <el-table-column prop="creator_id" label="处理人"> </el-table-column>
-        <el-table-column prop="project_id" label="所属项目"> </el-table-column>
+      <el-table-column prop="project_id" label="所属项目"> </el-table-column>
+      <el-table-column prop="creator_id" label="处理人"> </el-table-column>
+      <el-table-column prop="project_id" label="所属项目"> </el-table-column>
+      <el-table-column prop="creator_id" label="处理人"> </el-table-column>
+      <el-table-column prop="project_id" label="所属项目"> </el-table-column>
       <el-table-column label="操作" fixed="right">
-        <template slot-scope="scope" >
+        <template slot-scope="scope">
           <el-button size="mini" @click="handleEdit(scope.row)">编辑</el-button>
         </template>
       </el-table-column>
@@ -30,7 +36,7 @@ export default {
   },
   props: ["offDrawer"],
   methods: {
-    change(op){
+    change(op) {
       console.log(op);
     },
     //进入选取的工单
@@ -42,7 +48,7 @@ export default {
     getWoList(woQuey = {}) {
       woList(woQuey)
         .then(res => {
-          this.woList=res.data
+          this.woList = res.data;
           console.log(res.data);
         })
         .catch(err => {
@@ -54,64 +60,7 @@ export default {
   data() {
     return {
       //工单列表
-      woList: [
-        {
-          date: "2016-05-02",
-          name: "王小虎",
-          province: "上海",
-          city: "普陀区",
-          address: "上海市普陀区金沙江路 1518 弄",
-          zip: 200333
-        },
-        {
-          date: "2016-05-04",
-          name: "王小虎",
-          province: "上海",
-          city: "普陀区",
-          address: "上海市普陀区金沙江路 1517 弄",
-          zip: 200333
-        },
-        {
-          date: "2016-05-01",
-          name: "王小虎",
-          province: "上海",
-          city: "普陀区",
-          address: "上海市普陀区金沙江路 1519 弄",
-          zip: 200333
-        },
-        {
-          date: "2016-05-03",
-          name: "王小虎",
-          province: "上海",
-          city: "普陀区",
-          address: "上海市普陀区金沙江路 1516 弄",
-          zip: 200333
-        },
-        {
-          date: "2016-05-03",
-          name: "王小虎",
-          province: "上海",
-          city: "普陀区",
-          address: "上海市普陀区金沙江路 1516 弄",
-          zip: 200333
-        },
-        {
-          date: "2016-05-03",
-          name: "王小虎",
-          province: "上海",
-          city: "普陀区",
-          address: "上海市普陀区金沙江路 1516 弄",
-          zip: 200333
-        },
-        {
-          date: "2016-05-03",
-          name: "王小虎",
-          province: "上海",
-          city: "普陀区",
-          address: "上海市普陀区金沙江路 1516 弄",
-          zip: 200333
-        }
-      ],
+      woList: [],
       //快速筛选器预备选项
       conditions: [
         {
@@ -126,11 +75,74 @@ export default {
               label: "待处理"
             },
             {
-              value: { 
+              value: {
                 handlor: JSON.parse(sessionStorage.getItem("me")).id,
                 status: 1
-                },
+              },
               label: "正在处理"
+            },
+            {
+              value: {
+                handlor: JSON.parse(sessionStorage.getItem("me")).id,
+                status: 2
+              },
+              label: "待验证"
+            },
+            {
+              value: {
+                handlor: JSON.parse(sessionStorage.getItem("me")).id,
+                status: 3
+              },
+              label: "正在验证"
+            },
+            {
+              value: {
+                handlor: JSON.parse(sessionStorage.getItem("me")).id,
+                status: 4
+              },
+              label: "已完成"
+            }
+          ]
+        },
+        {
+          value: "",
+          label: "全部工单",
+          children: [
+            {
+              value: {
+                status: 0
+              },
+              label: "无条件"
+            },
+            {
+              value: {
+                status: 0
+              },
+              label: "待处理"
+            },
+            {
+              value: {
+                status: 1
+              },
+              label: "正在处理"
+            },
+            {
+              value: {
+                status: 2
+              },
+              label: "待验证"
+            },
+            {
+              value: {
+                status: 3
+              },
+              label: "正在验证"
+            },
+            {
+              value: {
+                status: 4
+              },
+              label: "已完成"
             }
           ]
         }

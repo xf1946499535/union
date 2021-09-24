@@ -69,8 +69,8 @@ import { newWo } from "@/api/wo";
 import { getUserList } from "@/api/users";
 export default {
   props: ["woDetail"],
-  created(){
-    this.getHandlers()
+  created() {
+    this.getHandlers();
   },
   mounted() {
     this.editor = this.$refs.myQuillEditor.quill;
@@ -86,19 +86,17 @@ export default {
           ]
         }
       },
-      hander_options: [
-      ],
+      hander_options: [],
       value: ""
     };
   },
   computed: {
-    //处理表单文本
-    handerText(){
+    //工单所决定的对工单的下一步操作
+    handerText() {
       switch (key) {
         case value:
-          
           break;
-      
+
         default:
           break;
       }
