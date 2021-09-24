@@ -7,7 +7,13 @@
       :show-all-levels="false"
     ></el-cascader>
 
-    <el-table :data="woList" height="800" border style="width: 100%">
+    <el-table
+      :data="woList"
+      height="800"
+      border
+      style="width: 100%"
+      v-loading="woList_loading"
+    >
       <el-table-column prop="title" label="工单名" width="180">
       </el-table-column>
       <el-table-column prop="id" label="工单号" width="180"> </el-table-column>
@@ -35,32 +41,11 @@ export default {
     this.getWoList();
   },
   props: ["offDrawer"],
-  methods: {
-    change(op) {
-      console.log(op);
-    },
-    //进入选取的工单
-    handleEdit(row) {
-      this.offDrawer();
-      this.$emit("getdetail", row);
-    },
-    //获取工单列表
-    getWoList(woQuey = {}) {
-      woList(woQuey)
-        .then(res => {
-          this.woList = res.data;
-          console.log(res.data);
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    }
-  },
-
   data() {
     return {
       //工单列表
       woList: [],
+      woList_loading: false,
       //快速筛选器预备选项
       conditions: [
         {
@@ -150,6 +135,31 @@ export default {
       //筛选器选中的选项
       screen: {}
     };
+  },
+  methods: {
+    change(op) {
+      console.log(op);
+    },
+    //进入选取的工单
+    handleEdit(row) {
+      this.offDrawer();
+      this.$emit("getdetail", row);
+    },
+    //获取工单列表
+    getWoList(woQuey = {}) {
+      this.woList_loading = true;
+      woList(woQuey)
+        .then(res => {
+          setTimeout(() => {
+            this.woList_loading = false;
+            this.woList = res.data;
+            console.log(res.data);
+          }, 500);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
   }
 };
 </script>

@@ -150,8 +150,10 @@ export default {
 </script>
 
 <style lang="scss">
-.w {
-  width: 80rem;
-  margin: 2rem auto;
+.createWo {
+  .w {
+    width: 80rem;
+    margin: 2rem auto;
+  }
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="createWo">
+  <div class="woInfo">
     <div class="w">
       <el-form ref="form" :model="woDetail" label-width="80px">
         <el-form-item label="工单名称">
@@ -67,6 +67,7 @@
 <script>
 import { newWo } from "@/api/wo";
 import { getUserList } from "@/api/users";
+
 export default {
   props: ["woDetail"],
   created() {
@@ -158,8 +159,11 @@ export default {
 </script>
 
 <style lang="scss">
-.w {
+.woInfo{
+  .w {
   width: 80rem;
   margin: 2rem auto;
 }
+}
+
 </style>
