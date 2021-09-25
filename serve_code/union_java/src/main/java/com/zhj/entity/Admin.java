@@ -31,5 +31,7 @@ public class Admin implements Serializable {
      */
     private String lsa;
 
+    private Result result;
+
 
 }

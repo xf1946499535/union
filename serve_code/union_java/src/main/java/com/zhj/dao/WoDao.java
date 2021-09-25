@@ -1,5 +1,6 @@
 package com.zhj.dao;
 
+import com.zhj.entity.Handler;
 import com.zhj.entity.Wo;
 import org.apache.ibatis.annotations.Param;
 
@@ -47,6 +48,8 @@ public interface WoDao {
      */
     int insert(Wo wo);
 
+    int insertHasAdmin(Wo wo);
+
     /**
      * 批量新增数据（MyBatis原生foreach方法）
      *
@@ -69,7 +72,7 @@ public interface WoDao {
      * @param wo 实例对象
      * @return 影响行数
      */
-    int update(Wo wo);
+    int updateWoInfoById(Wo wo);
 
     /**
      * 通过主键删除数据
@@ -78,6 +81,12 @@ public interface WoDao {
      * @return 影响行数
      */
     int deleteById(Integer id);
+
+    List<Handler> getAdminIdAndNameByWo_id(int id);
+
+    Handler getAdminIdAndNameByWoOne_id(int id);
+
+    int changeStatus(int id,int newStaus);
 
 }
 

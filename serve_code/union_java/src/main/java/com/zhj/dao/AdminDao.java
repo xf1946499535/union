@@ -22,5 +22,8 @@ public interface AdminDao {
 
     Admin getInfoById(int id);
 
+    List<Admin> getAllInfoOfAdmin();
+
+
 }
 

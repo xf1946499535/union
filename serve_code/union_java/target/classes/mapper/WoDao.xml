@@ -2,12 +2,16 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zhj.dao.WoDao">
 
+    <resultMap id="HandlerMap" type="com.zhj.entity.Handler">
+        <result property="handler_id" column="id" jdbcType="INTEGER"/>
+        <result property="handler_name" column="admin_name" jdbcType="INTEGER"/>
+    </resultMap>
 
     <!--通过实体作为筛选条件查询-->
     <select id="queryAll" resultType="com.zhj.entity.Wo">
-        select
-        id, title, creator_id, status, detail, create_time, over_time, project_id
-        from union.wo
+        select distinct
+        wo.id, wo.title, wo.creator_id, wo.status, wo.detail, wo.create_time, wo.over_time, wo.project_id
+        from union.wo,union.adminandwo
         <where>
             <if test="id != null">
                 and id = #{id}
@@ -24,26 +28,34 @@
             <if test="detail != null and detail != ''">
                 and detail = #{detail}
             </if>
-            <if test="create_time != null">
+            <if test="create_time != null and create_time != ''">
                 and create_time = #{create_time}
             </if>
-            <if test="over_time != null">
+            <if test="over_time != null and over_time != ''">
                 and over_time = #{over_time}
             </if>
-            <if test="project_id != null">
+            <if test="project_id != null and project_id != ''">
                 and project_id = #{project_id}
             </if>
+            <if test="handler_id != null and handler_id != ''" >
+                and adminandwo.admin_id = #{handler_id}
+            </if>
+                and wo.id = adminandwo.wo_id
         </where>
     </select>
 
     <!--新增所有列-->
-    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
-        insert into union.wo(title, creator_id, status, detail, create_time, over_time, project_id,estimate_time,distributPeople)
-        values (#{title}, #{creator_id}, "0", #{detail}, NOW(), #{over_time}, #{project_id},#{estimate_time},#{distributPeoplee})
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true" parameterType="com.zhj.entity.Wo">
+        insert into union.wo(title, creator_id, status, detail, create_time, over_time, project_id,estimate_time)
+        values (#{title}, #{creator_id}, "0", #{detail}, NOW(), #{over_time}, #{project_id},#{estimate_time})
     </insert>
 
+    <insert id="insertHasAdmin" keyProperty="id" useGeneratedKeys="true" parameterType="com.zhj.entity.Wo">
+        insert into union.wo(title, creator_id, status, detail, create_time, over_time, project_id,estimate_time)
+        values (#{title}, #{creator_id}, "1", #{detail}, NOW(), #{over_time}, #{project_id},#{estimate_time})
+    </insert>
     <!--通过主键修改数据-->
-    <update id="update">
+    <update id="updateWoInfoById">
         update union.wo
         <set>
             <if test="title != null and title != ''">
@@ -77,6 +89,20 @@
         from union.wo
         where id = #{id}
     </delete>
+
+
+    <select id="getAdminIdAndNameByWo_id" resultMap="HandlerMap">
+        SELECT id ,admin_name  FROM ADMIN WHERE id IN
+        (SELECT  aw.admin_id  FROM adminandwo aw,wo w WHERE  w.id = aw.wo_id  AND w.id = #{id})
+    </select>
+
+    <select id="getAdminIdAndNameByWoOne_id" resultMap="HandlerMap">
+        SELECT id ,admin_name  FROM ADMIN WHERE id = #{id}
+    </select>
+
+    <update id="changeStatus">
+        update wo set status = #{newStaus} where id = #{id}
+    </update>
 
 </mapper>
 

@@ -1,5 +1,6 @@
 package com.zhj.service;
 
+import com.zhj.entity.Handler;
 import com.zhj.entity.Wo;
 
 import java.util.List;
@@ -11,7 +12,7 @@ import java.util.List;
  * @since 2021-09-19 18:49:06
  */
 public interface WoService {
-    Wo insert(Wo wo);
+    int insert(Wo wo);
 
     /**
      * 修改数据
@@ -19,7 +20,7 @@ public interface WoService {
      * @param wo 实例对象
      * @return 实例对象
      */
-    Wo update(Wo wo);
+    Wo updateWoInfoById(Wo wo);
 
     List<Wo> queryAll(Wo wo);
 
@@ -31,5 +32,7 @@ public interface WoService {
      */
 
     boolean deleteById(Integer id);
+
+    int changeStatus(int id,int newStaus);
 
 }

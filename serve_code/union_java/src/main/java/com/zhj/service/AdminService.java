@@ -20,4 +20,6 @@ public interface AdminService {
     Result login(Admin admin);
 
     Admin getInfoById(String token);
+
+    List<Admin> getAllInfoOfAdmin();
 }

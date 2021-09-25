@@ -25,6 +25,10 @@
        select id,admin_name,admin_level,current_mac,LSA from admin where admin_name = #{admin_name} and admin_password = #{admin_password}
     </select>
 
+    <select id="getAllInfoOfAdmin" resultType="com.zhj.entity.Admin">
+        select id,admin_name,admin_level,current_mac,LSA from admin
+    </select>
+
 
 
 

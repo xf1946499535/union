@@ -7,6 +7,7 @@ import lombok.ToString;
 
 import java.util.Date;
 import java.io.Serializable;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -20,7 +21,7 @@ public class Wo implements Serializable {
 
     private Integer creator_id;
 
-    private String status;
+    private int status;
 
     private String detail;
 
@@ -34,7 +35,13 @@ public class Wo implements Serializable {
 
     private int[] distributPeople;
 
-    private String distributPeoplee;
+    private int handler_id;
+
+    private Handler handler;
+
+    private List<Handler> handlers;
+
+    private Result result;
 
 
 }
