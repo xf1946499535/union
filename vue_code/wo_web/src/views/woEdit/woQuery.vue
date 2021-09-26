@@ -40,16 +40,22 @@ export default {
       //表单信息
       woInfo_query: {
         title: "",
+        id: "",
         project: {
-          project_id: null,
-          project_name: "项目1"
+          id: null,
+          title: "项目1"
         },
-        handler: {},
-        handlers: [],
+        handler: {
+          handler_id: 0,
+          handler_name: ""
+        },
+        handlers: [], //处理人数组
+        handlers_ids: [], //处理人id数组，可能会有新增
         create_time: "",
         estimate_time: "",
+        creator_id:"",
         over_time: "",
-        status: "",
+        status: 0,
         delivery: false,
         type: [],
         resource: "",
@@ -61,11 +67,23 @@ export default {
   methods: {
     //从woList组件拿到工单信息，发送给woInfo组件
     getWodetail(wodetail) {
-      console.log(wodetail);
+      // console.log(wodetail);
+      wodetail.handlers.forEach((item, index) => {
+        this.woInfo_query.handlers_ids[index] =
+          wodetail.handlers[index].handler_id;
+      });
+      this.woInfo_query.id = wodetail.id;
       this.woInfo_query.title = wodetail.title;
-      this.woInfo_query.project.project_id = wodetail.project_id;
+      this.woInfo_query.project = JSON.parse(
+        JSON.stringify(wodetail.project_info)
+      );
+      this.woInfo_query.creator_id=wodetail.creator_id
+      this.woInfo_query.create_time = wodetail.create_time;
       this.woInfo_query.status = wodetail.status;
+      this.woInfo_query.handler = JSON.parse(JSON.stringify(wodetail.handler));
+      this.woInfo_query.handlers = wodetail.handlers;
       this.woInfo_query.content = wodetail.detail;
+      // console.log(this.woInfo_query);
     },
     //关闭抽屉
     offDrawer() {

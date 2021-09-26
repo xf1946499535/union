@@ -1,22 +1,60 @@
 <template>
   <div class="woInfo">
-    <div class="w">
-      <el-form ref="form" :model="woDetail" label-width="80px">
+    <div class="w" v-if="woDetail">
+      <el-form ref="form" :model="woDetail" label-width="100px">
+        <el-form-item label="当前状态">
+          <el-steps
+            :space="200"
+            :active="woDetail.status"
+            finish-status="success"
+          >
+            <el-step
+              v-for="(item, index) in status_title"
+              :key="'status' + index"
+              :title="item"
+            ></el-step>
+          </el-steps>
+        </el-form-item>
+        <el-form-item label="表单处理">
+          <el-button @click="handleWo">{{
+            status_submit_title[woDetail.status]
+          }}</el-button>
+          <el-button
+            v-if="woDetail.status == 3 || woDetail.status == 4"
+            @click="handleWo(false)"
+            >重新处理</el-button
+          >
+        </el-form-item>
         <el-form-item label="工单名称">
           <el-input v-model="woDetail.title"></el-input>
         </el-form-item>
         <el-form-item label="所属项目">
-          <el-select
-            v-model="woDetail.project.project_id"
-            placeholder="请选择项目"
-          >
-            <el-option label="项目1" value="1"></el-option>
-            <el-option label="项目2" value="2"></el-option>
+          <el-select v-model="woDetail.project.id" placeholder="请选择项目">
+            <el-option
+              v-for="(item, index) in project_ops"
+              :key="'pro' + index"
+              :label="item.title"
+              :value="item.id"
+            ></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="分配">
+        <el-form-item label="当前处理人">
+          <el-button
+            type="primary"
+            icon="el-icon-edit"
+            circle
+            @click="isDistribute = !isDistribute"
+          ></el-button>
+          <span
+            v-for="(item, index) in woDetail.handlers"
+            :key="'hander' + index"
+            ><span>{{ "    " }}</span>
+            <el-link type="info">{{ item.handler_name }}</el-link>
+          </span>
+        </el-form-item>
+        <el-form-item label="重新分配" v-if="isDistribute">
           <el-select
-            v-model="woDetail.handlers.handle_id"
+            v-model="woDetail.handlers_ids"
             multiple
             filterable
             placeholder="请选择coder"
@@ -30,7 +68,6 @@
             </el-option>
           </el-select>
         </el-form-item>
-
         <el-form-item label="预计时间">
           <el-date-picker
             v-model="woDetail.estimate_time"
@@ -65,13 +102,15 @@
 </template>
 
 <script>
-import { newWo } from "@/api/wo";
+import { updateWo, woStep } from "@/api/wo";
 import { getUserList } from "@/api/users";
+import { allProject } from "@/api/project";
 
 export default {
   props: ["woDetail"],
   created() {
     this.getHandlers();
+    this.getProjectList();
   },
   mounted() {
     this.editor = this.$refs.myQuillEditor.quill;
@@ -79,6 +118,24 @@ export default {
   components: {},
   data() {
     return {
+      //status对照 0:未分配  1:待处理  2:正在处理 3:待验证 4:正在验证 5:已完成
+      status_title: [
+        "未分配",
+        "待处理",
+        "正在处理",
+        "待验证",
+        "正在验证",
+        "已完成"
+      ],
+      status_submit_title: [
+        "分配",
+        "开始处理",
+        "提交处理",
+        "开始验证",
+        "验证通过",
+        "验证不通过"
+      ],
+      isDistribute: false,
       editorOption: {
         modules: {
           toolbar: [
@@ -88,27 +145,27 @@ export default {
         }
       },
       hander_options: [],
-      value: ""
+      value: "",
+      project_ops: []
     };
   },
-  computed: {
-    //工单所决定的对工单的下一步操作
-    handerText() {
-      switch (key) {
-        case value:
-          break;
 
-        default:
-          break;
-      }
-    }
-  },
 
   beforeDestroy() {
     this.editor = null;
     delete this.editor;
   },
   methods: {
+    //获取项目列表
+    getProjectList() {
+      allProject({})
+        .then(res => {
+          this.project_ops = res.data;
+        })
+        .catch(err => {
+          this.$message.error("获取项目列表失败");
+        });
+    },
     // 准备富文本编辑器
     onEditorReady(editor) {},
     // 富文本编辑器 失去焦点事件
@@ -119,51 +176,61 @@ export default {
     onEditorChange(editor) {},
     //保存当前表单
     updateWo() {
-      console.log("submit!");
+    if (
+        this.woDetail.handlers_ids.indexOf(
+          JSON.parse(sessionStorage.getItem("me")).id
+        ) < 0 &&
+        JSON.parse(sessionStorage.getItem("me")).id != this.woDetail.creator_id
+      ) {
+        this.$message.error("您无权更改此工单");
+        return false;
+      }
       let data = {
-        title: this.form.name,
-        creator_id: JSON.parse(sessionStorage.getItem("me")).id,
-        detail: this.content,
-        project_id: this.form.project.project_id,
-        distributPeople: this.form.coder_ids
+        id: this.woDetail.id,
+        title: this.woDetail.title,
+        detail: this.woDetail.content,
+        distributPeople: this.woDetail.handlers_ids,
+        handler_id: JSON.parse(sessionStorage.getItem("me")).id
       };
-      // newWo(data)
-      //   .then(res => {
-      //     console.log(res);
-      //     this.$notify.error({
-      //       title: "操作成功",
-      //       message: "新的工单已经完成创建"
-      //     });
-      //   })
-      //   .catch(err => {
-      //     console.log(err);
-      //     this.$notify.error({
-      //       title: "操作失败",
-      //       message: "请重新操作或者联系管理员"
-      //     });
-      //   });
+      // console.log(data);
+      updateWo(data)
+        .then(res => {
+          this.$message({
+            message: "更新成功",
+            type: "success"
+          });
+        })
+        .catch(err => {
+          this.$message.error("更新失败");
+        });
     },
     //获取用户列表
     getHandlers() {
       getUserList()
         .then(res => {
-          console.log(res);
           this.hander_options = res.data;
         })
         .catch(err => {
           console.log(err);
         });
+    },
+    //表单处理
+    handleWo(flag = true) {
+      const data = {
+        id: 1,
+        status: woDetail.status,
+        flag: flag
+      };
     }
   }
 };
 </script>
 
 <style lang="scss">
-.woInfo{
+.woInfo {
   .w {
-  width: 80rem;
-  margin: 2rem auto;
+    width: 80rem;
+    margin: 2rem auto;
+  }
 }
-}
-
 </style>

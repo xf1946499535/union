@@ -17,3 +17,21 @@ export const woList = (data) => {
       data: data
   })
 }
+
+//更新工单
+export const updateWo = (data) => {
+  return h_axios.request({
+      url: '/wo/updateWoInfoById',
+      method: 'post',
+      data: data
+  })
+}
+
+//处理表单流程
+export const woStep = (data) => {
+  return h_axios.request({
+      url: '/wo/updateWoOfStatus',
+      method: 'post',
+      data: data
+  })
+}
