@@ -4,4 +4,5 @@ module.exports = {
       port: 8288,
       disableHostCheck: true
   },
+  productionSourceMap: false,
 }

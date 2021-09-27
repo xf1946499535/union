@@ -150,18 +150,17 @@ export default {
         distributPeople: this.form.coder_ids,
         project_id: this.form.project.id
       };
-      console.log(data);
-      // newWo(data)
-      //   .then(res => {
-      //     this.$message({
-      //       message: "操作成功，工单完成创建",
-      //       type: "success"
-      //     });
-      //   })
-      //   .catch(err => {
-      //     console.log(err);
-      //     this.$message.error("操作失败，工单创建失败");
-      //   });
+      newWo(data)
+        .then(res => {
+          this.$message({
+            message: "操作成功，工单完成创建",
+            type: "success"
+          });
+        })
+        .catch(err => {
+          console.log(err);
+          this.$message.error("操作失败，工单创建失败");
+        });
     }
   }
 };

@@ -67,7 +67,6 @@ export default {
   methods: {
     //从woList组件拿到工单信息，发送给woInfo组件
     getWodetail(wodetail) {
-      // console.log(wodetail);
       wodetail.handlers.forEach((item, index) => {
         this.woInfo_query.handlers_ids[index] =
           wodetail.handlers[index].handler_id;
@@ -83,7 +82,6 @@ export default {
       this.woInfo_query.handler = JSON.parse(JSON.stringify(wodetail.handler));
       this.woInfo_query.handlers = wodetail.handlers;
       this.woInfo_query.content = wodetail.detail;
-      // console.log(this.woInfo_query);
     },
     //关闭抽屉
     offDrawer() {
