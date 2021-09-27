@@ -1,7 +1,12 @@
 <template>
   <div class="woInfo">
     <div class="w" v-if="woDetail">
-      <el-form ref="form" :model="woDetail" label-width="100px">
+      <el-form
+        ref="form"
+        :model="woDetail"
+        label-width="100px"
+        v-loading="woInfo_loading"
+      >
         <el-form-item label="当前状态">
           <el-steps
             :space="200"
@@ -15,15 +20,16 @@
             ></el-step>
           </el-steps>
         </el-form-item>
-        <el-form-item label="表单处理">
-          <el-button @click="handleWo">{{
+        <el-form-item label="表单处理" v-if="woDetail.status < 5">
+          <el-button @click="handleWo(true)">{{
             status_submit_title[woDetail.status]
           }}</el-button>
-          <el-button
-            v-if="woDetail.status == 3 || woDetail.status == 4"
-            @click="handleWo(false)"
+          <el-button v-if="woDetail.status == 3" @click="handleWo(false)"
             >重新处理</el-button
           >
+          <el-button v-if="woDetail.status == 4" @click="handleWo(false)">{{
+            status_submit_title[woDetail.status + 1]
+          }}</el-button>
         </el-form-item>
         <el-form-item label="工单名称">
           <el-input v-model="woDetail.title"></el-input>
@@ -146,10 +152,10 @@ export default {
       },
       hander_options: [],
       value: "",
-      project_ops: []
+      project_ops: [],
+      woInfo_loading: false
     };
   },
-
 
   beforeDestroy() {
     this.editor = null;
@@ -176,7 +182,7 @@ export default {
     onEditorChange(editor) {},
     //保存当前表单
     updateWo() {
-    if (
+      if (
         this.woDetail.handlers_ids.indexOf(
           JSON.parse(sessionStorage.getItem("me")).id
         ) < 0 &&
@@ -215,12 +221,35 @@ export default {
         });
     },
     //表单处理
-    handleWo(flag = true) {
+    handleWo(flag) {
+      this.woInfo_loading = true;
+      switch (this.woDetail.status) {
+        case 0:
+          if ((this.woDetail.handlers_ids.length = 0)) {
+            this.$message.error("请添加处理人");
+            return false;
+          }
+          break;
+        default:
+          break;
+      }
       const data = {
-        id: 1,
-        status: woDetail.status,
+        id: this.woDetail.id,
+        admin_id: JSON.parse(sessionStorage.getItem("me")).id,
+        status: this.woDetail.status,
         flag: flag
       };
+      console.log(data);
+      woStep(data)
+        .then(res => {
+          setTimeout(() => {
+            this.woDetail.status = res.data.code;
+            this.woInfo_loading = false;
+          }, 500);
+        })
+        .catch(err => {
+          this.$message.error("处理失败");
+        });
     }
   }
 };

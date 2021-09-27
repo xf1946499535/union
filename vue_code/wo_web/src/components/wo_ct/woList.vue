@@ -153,7 +153,7 @@ export default {
     //获取工单列表
     getWoList(woQuery = {}) {
       this.woList_loading = true;
-      console.log(woQuery);
+      // console.log(woQuery);
       woList(woQuery)
         .then(res => {
           setTimeout(() => {

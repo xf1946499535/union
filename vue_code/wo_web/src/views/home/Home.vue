@@ -27,6 +27,7 @@
         >工单管理</el-menu-item
       >
     </el-menu>
+    <el-divider content-position="left">欢迎进入wo系统{{"     "+adminInfo.admin_name}}</el-divider>
     <router-view></router-view>
   </div>
 </template>
@@ -40,6 +41,7 @@ export default {
     return {
       activeIndex: "1",
       activeIndex2: "1",
+      adminInfo:JSON.parse(sessionStorage.getItem('me'))
     };
   },
   methods: {
