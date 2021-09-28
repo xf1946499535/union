@@ -198,7 +198,6 @@ export default {
         distributPeople: this.woDetail.handlers_ids,
         handler_id: JSON.parse(sessionStorage.getItem("me")).id
       };
-      // console.log(data);
       updateWo(data)
         .then(res => {
           this.$message({
@@ -239,7 +238,7 @@ export default {
         status: this.woDetail.status,
         flag: flag
       };
-      console.log(data);
+
       woStep(data)
         .then(res => {
           setTimeout(() => {
