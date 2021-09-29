@@ -106,5 +106,8 @@ dist
 #union_web
 .union_web/node_modules
 
+#wo_koa
+.public/
+
 #java jar
 .target/union_java-0.0.1-SNAPSHOT.jar

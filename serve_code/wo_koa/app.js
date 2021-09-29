@@ -9,7 +9,7 @@ var sqlQuery = require('./module/lcMysql')
 const cors = require('koa2-cors'); //跨域处理
 const index = require('./routes/index')
 const users = require('./routes/users')
-
+const { historyApiFallback } = require('koa2-connect-history-api-fallback');
 // error handler
 onerror(app)
 
@@ -19,6 +19,7 @@ app.use(bodyparser({
 }))
 app.use(json())
 app.use(logger())
+app.use(historyApiFallback({ whiteList: ['/public'] }));
 app.use(require('koa-static')(__dirname + '/public'))
 
 app.use(views(__dirname + '/views', {
