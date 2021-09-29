@@ -1,7 +1,7 @@
 <template>
   <div class="loginpage">
     <div class="title">WO系统</div>
-    <div class="loginbox">
+    <div class="loginbox" @keydown.enter="loginsubmit('ruleForm')">
       <el-form
         :model="ruleForm"
         status-icon
