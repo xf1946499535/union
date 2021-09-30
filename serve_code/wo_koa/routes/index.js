@@ -1,5 +1,7 @@
 const router = require('koa-router')()
 var sqlQuery = require('../module/lcMysql')
+router.prefix('/index')
+
 router.get('/', async (ctx, next) => {
   // ctx.body = 'koa2 string' 
    let sqlstr = "select fafafa from fafafa"

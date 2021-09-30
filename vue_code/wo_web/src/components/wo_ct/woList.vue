@@ -26,17 +26,23 @@
         </template>
       </el-table-column>
     </el-table>
+    <el-pagination
+      :page-size="20"
+      :pager-count="11"
+      layout="prev, pager, next"
+      :hide-on-single-page="true"
+      :total="1000"
+    >
+    </el-pagination>
   </div>
 </template>
 
 <script>
 import { woList } from "@/api/wo";
 export default {
-  created() {
-  },
+  created() {},
   props: ["offDrawer"],
-  computed: {
-  },
+  computed: {},
   data() {
     return {
       status_title: [

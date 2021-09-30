@@ -8,6 +8,7 @@ Vue.use(VueRouter)
 const routes = [{
   path: '/',
   name: 'Home',
+  redirect: '/wopreview',
   component: () => import( /* webpackChunkName: "about" */ '../views/home/Home.vue')
   ,
   children: [{
@@ -17,6 +18,9 @@ const routes = [{
   {
     path: "/woQuery",
     component: () => import( /* webpackChunkName: "about" */ '../views/woEdit/woQuery.vue')
+  }, {
+    path: "/wopreview",
+    component: () => import( /* webpackChunkName: "about" */ '../views/woEdit/wopreview.vue')
   },
   ]
 },

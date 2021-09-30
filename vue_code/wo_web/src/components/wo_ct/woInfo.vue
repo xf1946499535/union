@@ -1,6 +1,6 @@
 <template>
   <div class="woInfo">
-    <div class="w" v-if="woDetail">
+    <div class="w">
       <el-form
         ref="form"
         :model="woDetail"
@@ -103,17 +103,18 @@
       </el-form>
     </div>
   </div>
-
-  <!-- <div class="d"></div> -->
 </template>
 
 <script>
 import { updateWo, woStep } from "@/api/wo";
 import { getUserList } from "@/api/users";
 import { allProject } from "@/api/project";
-
 export default {
+  components: {
+    addDiscuss: () => import("@/components/addDiscuss")
+  },
   props: ["woDetail"],
+
   created() {
     this.getHandlers();
     this.getProjectList();

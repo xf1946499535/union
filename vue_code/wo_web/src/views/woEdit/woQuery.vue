@@ -11,7 +11,17 @@
           </el-switch>
         </div>
       </el-header>
-      <el-main><woInfo :woDetail="woInfo_query" /></el-main>
+      <el-main
+      v-if="woInfo_query.id!=''"
+        ><woInfo :woDetail="woInfo_query" />
+        <el-collapse accordion>
+          <el-collapse-item>
+            <template slot="title">
+              评论<i class="header-icon el-icon-info"></i>
+            </template>
+            <addDiscuss @save="createDiscuss"></addDiscuss>
+          </el-collapse-item> </el-collapse
+      ></el-main>
       <el-drawer
         size="50rem"
         title="我是标题"
@@ -29,10 +39,12 @@
 <script>
 import woInfo from "@/components/wo_ct/woInfo.vue";
 import woList from "@/components/wo_ct/woList.vue";
+import addDiscuss from "@/components/addDiscuss.vue";
 export default {
   components: {
     woInfo,
-    woList
+    woList,
+    addDiscuss
   },
   data() {
     return {
@@ -53,7 +65,7 @@ export default {
         handlers_ids: [], //处理人id数组，可能会有新增
         create_time: "",
         estimate_time: "",
-        creator_id:"",
+        creator_id: "",
         over_time: "",
         status: 0,
         delivery: false,
@@ -76,7 +88,7 @@ export default {
       this.woInfo_query.project = JSON.parse(
         JSON.stringify(wodetail.project_info)
       );
-      this.woInfo_query.creator_id=wodetail.creator_id
+      this.woInfo_query.creator_id = wodetail.creator_id;
       this.woInfo_query.create_time = wodetail.create_time;
       this.woInfo_query.status = wodetail.status;
       this.woInfo_query.handler = JSON.parse(JSON.stringify(wodetail.handler));
@@ -86,6 +98,10 @@ export default {
     //关闭抽屉
     offDrawer() {
       this.drawer = false;
+    },
+    //新建评论
+    createDiscuss(newdiscuss){
+      console.log(newdiscuss);
     }
   }
 };
