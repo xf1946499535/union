@@ -11,9 +11,8 @@
           </el-switch>
         </div>
       </el-header>
-      <el-main
-      v-if="woInfo_query.id!=''"
-        ><woInfo :woDetail="woInfo_query" />
+      <el-main v-if="Mult_wo_id!= ''"
+        ><woInfo :wo_id="Mult_wo_id" />
         <el-collapse accordion>
           <el-collapse-item>
             <template slot="title">
@@ -49,58 +48,20 @@ export default {
   data() {
     return {
       drawer: false,
-      //表单信息
-      woInfo_query: {
-        title: "",
-        id: "",
-        project: {
-          id: null,
-          title: "项目1"
-        },
-        handler: {
-          handler_id: 0,
-          handler_name: ""
-        },
-        handlers: [], //处理人数组
-        handlers_ids: [], //处理人id数组，可能会有新增
-        create_time: "",
-        estimate_time: "",
-        creator_id: "",
-        over_time: "",
-        status: 0,
-        delivery: false,
-        type: [],
-        resource: "",
-        desc: "",
-        content: ""
-      }
+      Mult_wo_id: "", //筛选器选中的工单id
     };
   },
   methods: {
     //从woList组件拿到工单信息，发送给woInfo组件
-    getWodetail(wodetail) {
-      wodetail.handlers.forEach((item, index) => {
-        this.woInfo_query.handlers_ids[index] =
-          wodetail.handlers[index].handler_id;
-      });
-      this.woInfo_query.id = wodetail.id;
-      this.woInfo_query.title = wodetail.title;
-      this.woInfo_query.project = JSON.parse(
-        JSON.stringify(wodetail.project_info)
-      );
-      this.woInfo_query.creator_id = wodetail.creator_id;
-      this.woInfo_query.create_time = wodetail.create_time;
-      this.woInfo_query.status = wodetail.status;
-      this.woInfo_query.handler = JSON.parse(JSON.stringify(wodetail.handler));
-      this.woInfo_query.handlers = wodetail.handlers;
-      this.woInfo_query.content = wodetail.detail;
+    getWodetail(wo_id) {
+      this.Mult_wo_id = wo_id;
     },
     //关闭抽屉
     offDrawer() {
       this.drawer = false;
     },
     //新建评论
-    createDiscuss(newdiscuss){
+    createDiscuss(newdiscuss) {
       console.log(newdiscuss);
     }
   }

@@ -6,7 +6,7 @@
       mode="horizontal"
       @select="handleSelect"
     >
-      <el-submenu index="1" show-timeout="100" hide-timeout="100">
+      <el-submenu index="1">
         <template slot="title">个人中心</template>
         <el-menu-item index="1-1" @click="routeto('/wopreview')">我的工单</el-menu-item>
         <el-menu-item index="1-2">我的详情</el-menu-item>

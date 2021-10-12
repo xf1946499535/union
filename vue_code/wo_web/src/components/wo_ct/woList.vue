@@ -22,7 +22,7 @@
       <el-table-column prop="create_time" label="创建时间"></el-table-column>
       <el-table-column label="操作" fixed="right">
         <template slot-scope="scope">
-          <el-button size="mini" @click="handleEdit(scope.row)">编辑</el-button>
+          <el-button size="mini" @click="handleEdit(scope.row.id)">编辑</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -152,9 +152,10 @@ export default {
   },
   methods: {
     //进入选取的工单
-    handleEdit(row) {
+    handleEdit(wo_id) {
       this.offDrawer();
-      this.$emit("getdetail", row);
+      console.log(wo_id);
+      this.$emit("getdetail", wo_id);
     },
     //获取工单列表
     getWoList(woQuery = {}) {

@@ -35,7 +35,7 @@
           <el-input v-model="woDetail.title"></el-input>
         </el-form-item>
         <el-form-item label="所属项目">
-          <el-select v-model="woDetail.project.id" placeholder="请选择项目">
+          <el-select v-model="woDetail.project_id" placeholder="请选择项目">
             <el-option
               v-for="(item, index) in project_ops"
               :key="'pro' + index"
@@ -60,7 +60,7 @@
         </el-form-item>
         <el-form-item label="重新分配" v-if="isDistribute">
           <el-select
-            v-model="woDetail.handlers_ids"
+            v-model="NewHandlers_ids"
             multiple
             filterable
             placeholder="请选择coder"
@@ -87,7 +87,7 @@
         }}</el-form-item>
         <el-form-item>
           <quill-editor
-            v-model="woDetail.content"
+            v-model="woDetail.detail"
             ref="myQuillEditor"
             :options="editorOption"
             @focus="onEditorFocus($event)"
@@ -106,16 +106,17 @@
 </template>
 
 <script>
-import { updateWo, woStep } from "@/api/wo";
+import { updateWo, woStep, woList } from "@/api/wo";
 import { getUserList } from "@/api/users";
 import { allProject } from "@/api/project";
 export default {
   components: {
     addDiscuss: () => import("@/components/addDiscuss")
   },
-  props: ["woDetail"],
+  props: ["wo_id"],
 
   created() {
+    this.woInfo();
     this.getHandlers();
     this.getProjectList();
   },
@@ -125,6 +126,9 @@ export default {
   components: {},
   data() {
     return {
+      editor: "",
+      woDetail: {}, //工单详情
+      NewHandlers_ids: [], //重新分配后的处理人id数组
       //status对照 0:未分配  1:待处理  2:正在处理 3:待验证 4:正在验证 5:已完成
       status_title: [
         "未分配",
@@ -163,6 +167,17 @@ export default {
     delete this.editor;
   },
   methods: {
+    //获取项目详情
+    woInfo() {
+      woList({ id: this.wo_id }).then(res => {
+        this.woDetail = res.data[0];
+        //  console.log(this.woDetail.project_info.id);
+        //  console.log(this.woDetail);
+        this.woDetail.handlers.forEach((item, index) => {
+          this.NewHandlers_ids[index] = item.handler_id;
+        });
+      });
+    },
     //获取项目列表
     getProjectList() {
       allProject({})
@@ -184,7 +199,7 @@ export default {
     //保存当前表单
     updateWo() {
       if (
-        this.woDetail.handlers_ids.indexOf(
+        this.NewHandlers_ids.indexOf(
           JSON.parse(sessionStorage.getItem("me")).id
         ) < 0 &&
         JSON.parse(sessionStorage.getItem("me")).id != this.woDetail.creator_id
@@ -195,16 +210,21 @@ export default {
       let data = {
         id: this.woDetail.id,
         title: this.woDetail.title,
-        detail: this.woDetail.content,
-        distributPeople: this.woDetail.handlers_ids,
+        detail: this.woDetail.detail,
+        distributPeople: this.NewHandlers_ids,
         handler_id: JSON.parse(sessionStorage.getItem("me")).id
       };
+      this.woInfo_loading = true;
       updateWo(data)
         .then(res => {
           this.$message({
             message: "更新成功",
             type: "success"
           });
+          setTimeout(() => {
+            this.woInfo();
+            this.woInfo_loading = false;
+          }, 500);
         })
         .catch(err => {
           this.$message.error("更新失败");
