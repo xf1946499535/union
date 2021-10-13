@@ -18,7 +18,7 @@
       </el-table-column>
       <el-table-column prop="id" label="工单号"></el-table-column>
       <el-table-column prop="status_title" label="进度"> </el-table-column>
-      <el-table-column prop="project_id" label="所属项目"></el-table-column>
+      <el-table-column prop="project_info.title" label="所属项目"></el-table-column>
       <el-table-column prop="create_time" label="创建时间"></el-table-column>
       <el-table-column label="操作" fixed="right">
         <template slot-scope="scope">
@@ -165,6 +165,7 @@ export default {
           setTimeout(() => {
             this.woList_loading = false;
             this.woList = res.data;
+            console.log(this.woList);
             res.data.forEach((item, index) => {
               this.woList[index].status_title = this.status_title[item.status];
             });
