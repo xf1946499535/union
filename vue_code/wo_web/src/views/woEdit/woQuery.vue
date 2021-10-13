@@ -45,6 +45,9 @@ export default {
     woList,
     addDiscuss
   },
+  created(){
+    this.getWodetail(this.$route.query.wo_id)
+  },
   data() {
     return {
       drawer: false,

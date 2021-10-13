@@ -123,6 +123,9 @@ export default {
   mounted() {
     this.editor = this.$refs.myQuillEditor.quill;
   },
+  updated(){
+    this.woInfo();
+  },
   components: {},
   data() {
     return {

@@ -18,11 +18,16 @@
       </el-table-column>
       <el-table-column prop="id" label="工单号"></el-table-column>
       <el-table-column prop="status_title" label="进度"> </el-table-column>
-      <el-table-column prop="project_info.title" label="所属项目"></el-table-column>
+      <el-table-column
+        prop="project_info.title"
+        label="所属项目"
+      ></el-table-column>
       <el-table-column prop="create_time" label="创建时间"></el-table-column>
       <el-table-column label="操作" fixed="right">
         <template slot-scope="scope">
-          <el-button size="mini" @click="handleEdit(scope.row.id)">编辑</el-button>
+          <el-button size="mini" @click="handleEdit(scope.row.id)"
+            >编辑</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
@@ -154,7 +159,13 @@ export default {
     //进入选取的工单
     handleEdit(wo_id) {
       this.offDrawer();
-      console.log(wo_id);
+      // console.log(wo_id);
+      this.$router.push({
+        path: "/woQuery",
+        query: {
+          wo_id: wo_id
+        }
+      });
       this.$emit("getdetail", wo_id);
     },
     //获取工单列表
