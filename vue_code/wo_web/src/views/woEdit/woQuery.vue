@@ -11,7 +11,16 @@
           </el-switch>
         </div>
       </el-header>
-      <el-main><woInfo :woDetail="woInfo_query" /></el-main>
+      <el-main v-if="Mult_wo_id!= ''"
+        ><woInfo :wo_id="Mult_wo_id" />
+        <el-collapse accordion>
+          <el-collapse-item>
+            <template slot="title">
+              评论<i class="header-icon el-icon-info"></i>
+            </template>
+            <addDiscuss @save="createDiscuss"></addDiscuss>
+          </el-collapse-item> </el-collapse
+      ></el-main>
       <el-drawer
         size="50rem"
         title="我是标题"
@@ -29,47 +38,34 @@
 <script>
 import woInfo from "@/components/wo_ct/woInfo.vue";
 import woList from "@/components/wo_ct/woList.vue";
+import addDiscuss from "@/components/addDiscuss.vue";
 export default {
   components: {
     woInfo,
-    woList
+    woList,
+    addDiscuss
+  },
+  created(){
+    this.getWodetail(this.$route.query.wo_id)
   },
   data() {
     return {
       drawer: false,
-      //表单信息
-      woInfo_query: {
-        title: "",
-        project: {
-          project_id: null,
-          project_name: "项目1"
-        },
-        handler: {},
-        handlers: [],
-        create_time: "",
-        estimate_time: "",
-        over_time: "",
-        status: "",
-        delivery: false,
-        type: [],
-        resource: "",
-        desc: "",
-        content: ""
-      }
+      Mult_wo_id: "", //筛选器选中的工单id
     };
   },
   methods: {
     //从woList组件拿到工单信息，发送给woInfo组件
-    getWodetail(wodetail) {
-      console.log(wodetail);
-      this.woInfo_query.title = wodetail.title;
-      this.woInfo_query.project.project_id = wodetail.project_id;
-      this.woInfo_query.status = wodetail.status;
-      this.woInfo_query.content = wodetail.detail;
+    getWodetail(wo_id) {
+      this.Mult_wo_id = wo_id;
     },
     //关闭抽屉
     offDrawer() {
       this.drawer = false;
+    },
+    //新建评论
+    createDiscuss(newdiscuss) {
+      console.log(newdiscuss);
     }
   }
 };

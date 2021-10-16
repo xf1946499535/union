@@ -1,22 +1,66 @@
 <template>
   <div class="woInfo">
     <div class="w">
-      <el-form ref="form" :model="woDetail" label-width="80px">
+      <el-form
+        ref="form"
+        :model="woDetail"
+        label-width="100px"
+        v-loading="woInfo_loading"
+      >
+        <el-form-item label="当前状态">
+          <el-steps
+            :space="200"
+            :active="woDetail.status"
+            finish-status="success"
+          >
+            <el-step
+              v-for="(item, index) in status_title"
+              :key="'status' + index"
+              :title="item"
+            ></el-step>
+          </el-steps>
+        </el-form-item>
+        <el-form-item label="表单处理" v-if="woDetail.status < 5">
+          <el-button @click="handleWo(true)">{{
+            status_submit_title[woDetail.status]
+          }}</el-button>
+          <el-button v-if="woDetail.status == 3" @click="handleWo(false)"
+            >重新处理</el-button
+          >
+          <el-button v-if="woDetail.status == 4" @click="handleWo(false)">{{
+            status_submit_title[woDetail.status + 1]
+          }}</el-button>
+        </el-form-item>
         <el-form-item label="工单名称">
           <el-input v-model="woDetail.title"></el-input>
         </el-form-item>
         <el-form-item label="所属项目">
-          <el-select
-            v-model="woDetail.project.project_id"
-            placeholder="请选择项目"
-          >
-            <el-option label="项目1" value="1"></el-option>
-            <el-option label="项目2" value="2"></el-option>
+          <el-select v-model="woDetail.project_id" placeholder="请选择项目">
+            <el-option
+              v-for="(item, index) in project_ops"
+              :key="'pro' + index"
+              :label="item.title"
+              :value="item.id"
+            ></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="分配">
+        <el-form-item label="当前处理人">
+          <el-button
+            type="primary"
+            icon="el-icon-edit"
+            circle
+            @click="isDistribute = !isDistribute"
+          ></el-button>
+          <span
+            v-for="(item, index) in woDetail.handlers"
+            :key="'hander' + index"
+            ><span>{{ "    " }}</span>
+            <el-link type="info">{{ item.handler_name }}</el-link>
+          </span>
+        </el-form-item>
+        <el-form-item label="重新分配" v-if="isDistribute">
           <el-select
-            v-model="woDetail.handlers.handle_id"
+            v-model="NewHandlers_ids"
             multiple
             filterable
             placeholder="请选择coder"
@@ -30,7 +74,6 @@
             </el-option>
           </el-select>
         </el-form-item>
-
         <el-form-item label="预计时间">
           <el-date-picker
             v-model="woDetail.estimate_time"
@@ -44,7 +87,7 @@
         }}</el-form-item>
         <el-form-item>
           <quill-editor
-            v-model="woDetail.content"
+            v-model="woDetail.detail"
             ref="myQuillEditor"
             :options="editorOption"
             @focus="onEditorFocus($event)"
@@ -60,25 +103,53 @@
       </el-form>
     </div>
   </div>
-
-  <!-- <div class="d"></div> -->
 </template>
 
 <script>
-import { newWo } from "@/api/wo";
+import { updateWo, woStep, woList } from "@/api/wo";
 import { getUserList } from "@/api/users";
-
+import { allProject } from "@/api/project";
 export default {
-  props: ["woDetail"],
+  components: {
+    addDiscuss: () => import("@/components/addDiscuss")
+  },
+  props: ["wo_id"],
+
   created() {
+    this.woInfo();
     this.getHandlers();
+    this.getProjectList();
   },
   mounted() {
     this.editor = this.$refs.myQuillEditor.quill;
   },
+  updated(){
+    this.woInfo();
+  },
   components: {},
   data() {
     return {
+      editor: "",
+      woDetail: {}, //工单详情
+      NewHandlers_ids: [], //重新分配后的处理人id数组
+      //status对照 0:未分配  1:待处理  2:正在处理 3:待验证 4:正在验证 5:已完成
+      status_title: [
+        "未分配",
+        "待处理",
+        "正在处理",
+        "待验证",
+        "正在验证",
+        "已完成"
+      ],
+      status_submit_title: [
+        "分配",
+        "开始处理",
+        "提交处理",
+        "开始验证",
+        "验证通过",
+        "验证不通过"
+      ],
+      isDistribute: false,
       editorOption: {
         modules: {
           toolbar: [
@@ -88,20 +159,10 @@ export default {
         }
       },
       hander_options: [],
-      value: ""
+      value: "",
+      project_ops: [],
+      woInfo_loading: false
     };
-  },
-  computed: {
-    //工单所决定的对工单的下一步操作
-    handerText() {
-      switch (key) {
-        case value:
-          break;
-
-        default:
-          break;
-      }
-    }
   },
 
   beforeDestroy() {
@@ -109,6 +170,27 @@ export default {
     delete this.editor;
   },
   methods: {
+    //获取项目详情
+    woInfo() {
+      woList({ id: this.wo_id }).then(res => {
+        this.woDetail = res.data[0];
+        //  console.log(this.woDetail.project_info.id);
+        //  console.log(this.woDetail);
+        this.woDetail.handlers.forEach((item, index) => {
+          this.NewHandlers_ids[index] = item.handler_id;
+        });
+      });
+    },
+    //获取项目列表
+    getProjectList() {
+      allProject({})
+        .then(res => {
+          this.project_ops = res.data;
+        })
+        .catch(err => {
+          this.$message.error("获取项目列表失败");
+        });
+    },
     // 准备富文本编辑器
     onEditorReady(editor) {},
     // 富文本编辑器 失去焦点事件
@@ -119,39 +201,77 @@ export default {
     onEditorChange(editor) {},
     //保存当前表单
     updateWo() {
-      console.log("submit!");
+      if (
+        this.NewHandlers_ids.indexOf(
+          JSON.parse(sessionStorage.getItem("me")).id
+        ) < 0 &&
+        JSON.parse(sessionStorage.getItem("me")).id != this.woDetail.creator_id
+      ) {
+        this.$message.error("您无权更改此工单");
+        return false;
+      }
       let data = {
-        title: this.form.name,
-        creator_id: JSON.parse(sessionStorage.getItem("me")).id,
-        detail: this.content,
-        project_id: this.form.project.project_id,
-        distributPeople: this.form.coder_ids
+        id: this.woDetail.id,
+        title: this.woDetail.title,
+        detail: this.woDetail.detail,
+        distributPeople: this.NewHandlers_ids,
+        handler_id: JSON.parse(sessionStorage.getItem("me")).id
       };
-      // newWo(data)
-      //   .then(res => {
-      //     console.log(res);
-      //     this.$notify.error({
-      //       title: "操作成功",
-      //       message: "新的工单已经完成创建"
-      //     });
-      //   })
-      //   .catch(err => {
-      //     console.log(err);
-      //     this.$notify.error({
-      //       title: "操作失败",
-      //       message: "请重新操作或者联系管理员"
-      //     });
-      //   });
+      this.woInfo_loading = true;
+      updateWo(data)
+        .then(res => {
+          this.$message({
+            message: "更新成功",
+            type: "success"
+          });
+          setTimeout(() => {
+            this.woInfo();
+            this.woInfo_loading = false;
+          }, 500);
+        })
+        .catch(err => {
+          this.$message.error("更新失败");
+        });
     },
     //获取用户列表
     getHandlers() {
       getUserList()
         .then(res => {
-          console.log(res);
           this.hander_options = res.data;
         })
         .catch(err => {
           console.log(err);
+        });
+    },
+    //表单处理
+    handleWo(flag) {
+      this.woInfo_loading = true;
+      switch (this.woDetail.status) {
+        case 0:
+          if ((this.woDetail.handlers_ids.length = 0)) {
+            this.$message.error("请添加处理人");
+            return false;
+          }
+          break;
+        default:
+          break;
+      }
+      const data = {
+        id: this.woDetail.id,
+        admin_id: JSON.parse(sessionStorage.getItem("me")).id,
+        status: this.woDetail.status,
+        flag: flag
+      };
+
+      woStep(data)
+        .then(res => {
+          setTimeout(() => {
+            this.woDetail.status = res.data.code;
+            this.woInfo_loading = false;
+          }, 500);
+        })
+        .catch(err => {
+          this.$message.error("处理失败");
         });
     }
   }
@@ -159,11 +279,10 @@ export default {
 </script>
 
 <style lang="scss">
-.woInfo{
+.woInfo {
   .w {
-  width: 80rem;
-  margin: 2rem auto;
+    width: 80rem;
+    margin: 2rem auto;
+  }
 }
-}
-
 </style>

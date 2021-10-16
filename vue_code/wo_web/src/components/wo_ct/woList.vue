@@ -3,12 +3,12 @@
     <el-cascader
       :options="conditions"
       v-model="screen"
-      @change="change"
+      @change="getWoList(screen[1])"
       :show-all-levels="false"
     ></el-cascader>
-
     <el-table
       :data="woList"
+      stripe
       height="800"
       border
       style="width: 100%"
@@ -16,33 +16,48 @@
     >
       <el-table-column prop="title" label="工单名" width="180">
       </el-table-column>
-      <el-table-column prop="id" label="工单号" width="180"> </el-table-column>
-      <el-table-column prop="status" label="进度" width="180">
-      </el-table-column>
-      <el-table-column prop="creator_id" label="处理人"> </el-table-column>
-      <el-table-column prop="project_id" label="所属项目"> </el-table-column>
-      <el-table-column prop="creator_id" label="处理人"> </el-table-column>
-      <el-table-column prop="project_id" label="所属项目"> </el-table-column>
-      <el-table-column prop="creator_id" label="处理人"> </el-table-column>
-      <el-table-column prop="project_id" label="所属项目"> </el-table-column>
+      <el-table-column prop="id" label="工单号"></el-table-column>
+      <el-table-column prop="status_title" label="进度"> </el-table-column>
+      <el-table-column
+        prop="project_info.title"
+        label="所属项目"
+      ></el-table-column>
+      <el-table-column prop="create_time" label="创建时间"></el-table-column>
       <el-table-column label="操作" fixed="right">
         <template slot-scope="scope">
-          <el-button size="mini" @click="handleEdit(scope.row)">编辑</el-button>
+          <el-button size="mini" @click="handleEdit(scope.row.id)"
+            >编辑</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
+    <el-pagination
+      :page-size="20"
+      :pager-count="11"
+      layout="prev, pager, next"
+      :hide-on-single-page="true"
+      :total="1000"
+    >
+    </el-pagination>
   </div>
 </template>
 
 <script>
 import { woList } from "@/api/wo";
 export default {
-  created() {
-    this.getWoList();
-  },
+  created() {},
   props: ["offDrawer"],
+  computed: {},
   data() {
     return {
+      status_title: [
+        "未分配",
+        "待处理",
+        "正在处理",
+        "待验证",
+        "正在验证",
+        "已完成"
+      ],
       //工单列表
       woList: [],
       woList_loading: false,
@@ -54,36 +69,36 @@ export default {
           children: [
             {
               value: {
-                handlor: JSON.parse(sessionStorage.getItem("me")).id,
-                status: 0
+                handler_id: JSON.parse(sessionStorage.getItem("me")).id,
+                status: 1
               },
               label: "待处理"
             },
             {
               value: {
-                handlor: JSON.parse(sessionStorage.getItem("me")).id,
-                status: 1
+                handler_id: JSON.parse(sessionStorage.getItem("me")).id,
+                status: 2
               },
               label: "正在处理"
             },
             {
               value: {
-                handlor: JSON.parse(sessionStorage.getItem("me")).id,
-                status: 2
+                handler_id: JSON.parse(sessionStorage.getItem("me")).id,
+                status: 3
               },
               label: "待验证"
             },
             {
               value: {
-                handlor: JSON.parse(sessionStorage.getItem("me")).id,
-                status: 3
+                handler_id: JSON.parse(sessionStorage.getItem("me")).id,
+                status: 4
               },
               label: "正在验证"
             },
             {
               value: {
-                handlor: JSON.parse(sessionStorage.getItem("me")).id,
-                status: 4
+                handler_id: JSON.parse(sessionStorage.getItem("me")).id,
+                status: 5
               },
               label: "已完成"
             }
@@ -94,38 +109,42 @@ export default {
           label: "全部工单",
           children: [
             {
-              value: {
-                status: 0
-              },
+              value: {},
               label: "无条件"
             },
             {
               value: {
                 status: 0
               },
-              label: "待处理"
+              label: "未分配"
             },
             {
               value: {
                 status: 1
               },
-              label: "正在处理"
+              label: "待处理"
             },
             {
               value: {
                 status: 2
               },
-              label: "待验证"
+              label: "正在处理"
             },
             {
               value: {
                 status: 3
               },
-              label: "正在验证"
+              label: "待验证"
             },
             {
               value: {
                 status: 4
+              },
+              label: "正在验证"
+            },
+            {
+              value: {
+                status: 5
               },
               label: "已完成"
             }
@@ -137,23 +156,30 @@ export default {
     };
   },
   methods: {
-    change(op) {
-      console.log(op);
-    },
     //进入选取的工单
-    handleEdit(row) {
+    handleEdit(wo_id) {
       this.offDrawer();
-      this.$emit("getdetail", row);
+      // console.log(wo_id);
+      this.$router.push({
+        path: "/woQuery",
+        query: {
+          wo_id: wo_id
+        }
+      });
+      this.$emit("getdetail", wo_id);
     },
     //获取工单列表
-    getWoList(woQuey = {}) {
+    getWoList(woQuery = {}) {
       this.woList_loading = true;
-      woList(woQuey)
+      woList(woQuery)
         .then(res => {
           setTimeout(() => {
             this.woList_loading = false;
             this.woList = res.data;
-            console.log(res.data);
+            console.log(this.woList);
+            res.data.forEach((item, index) => {
+              this.woList[index].status_title = this.status_title[item.status];
+            });
           }, 500);
         })
         .catch(err => {

@@ -6,9 +6,13 @@
           <el-input v-model="form.name"></el-input>
         </el-form-item>
         <el-form-item label="所属项目">
-          <el-select v-model="form.project.project_id" placeholder="请选择项目">
-            <el-option label="项目1" value="1"></el-option>
-            <el-option label="项目2" value="2"></el-option>
+          <el-select v-model="form.project.id" placeholder="请选择项目">
+            <el-option
+              v-for="(item, index) in project_ops"
+              :key="'pro' + index"
+              :label="item.title"
+              :value="item.id"
+            ></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="分配">
@@ -62,9 +66,11 @@
 <script>
 import { newWo } from "@/api/wo";
 import { getUserList } from "@/api/users";
+import { allProject } from "@/api/project";
 export default {
   created() {
     this.getAllUser();
+    this.getProjectList();
   },
   mounted() {
     this.editor = this.$refs.myQuillEditor.quill;
@@ -84,8 +90,8 @@ export default {
       form: {
         name: "",
         project: {
-          project_id: null,
-          project_name: ""
+          id: null,
+          title: ""
         },
         coder_ids: [],
         date: "",
@@ -95,6 +101,7 @@ export default {
         resource: "",
         desc: ""
       },
+      project_ops: [],
       coders: [],
       value: ""
     };
@@ -115,6 +122,16 @@ export default {
           this.$message.error("获取用户列表失败");
         });
     },
+    //获取项目列表
+    getProjectList() {
+      allProject({})
+        .then(res => {
+          this.project_ops = res.data;
+        })
+        .catch(err => {
+          this.$message.error("获取项目列表失败");
+        });
+    },
     // 准备富文本编辑器
     onEditorReady(editor) {},
     // 富文本编辑器 失去焦点事件
@@ -130,8 +147,8 @@ export default {
         title: this.form.name,
         creator_id: JSON.parse(sessionStorage.getItem("me")).id,
         detail: this.content,
-        project_id: this.form.project.project_id,
-        distributPeople: this.form.coder_ids
+        distributPeople: this.form.coder_ids,
+        project_id: this.form.project.id
       };
       newWo(data)
         .then(res => {

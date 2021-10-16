@@ -9,6 +9,8 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var history = require('connect-history-api-fallback');
+
 //此处需要进行mysql连接操作，已安装mysql模块，，
 var sqlQuery = require('./module/lcMysql')
 
@@ -18,6 +20,7 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
+app.use(history());
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
