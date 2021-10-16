@@ -1,26 +1,22 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <!-- <router-link to="/">Home</router-link> | -->
-      <!-- <router-link to="/about">About</router-link> -->
-      <el-progress
-        :percentage="100"
-        :format="format"
-        :color="$store.state.settings.theme"
-      ></el-progress>
-    </div>
-    <theme-picker @change="themeChange"></theme-picker>
-    <!-- <router-view/> -->
+    <!-- <theme-picker @change="themeChange"></theme-picker>
+    <el-progress
+      :percentage="100"
+      :format="format"
+      :color="$store.state.settings.theme"
+    ></el-progress> -->
+    <router-view />
   </div>
-</template> ``
+</template>
 <script>
 import ThemePicker from "@/components/ThemePicker";
 export default {
   components: {
-    ThemePicker
+    ThemePicker,
   },
-  created(){
-    this.localtheme()
+  created() {
+    this.localtheme();
   },
   methods: {
     format(percentage) {
@@ -29,17 +25,17 @@ export default {
     themeChange(val) {
       this.$store.dispatch("changeSetting", {
         key: "theme",
-        value: val
+        value: val,
       });
-      localStorage.setItem('theme',val);//保存选中的主题色
+      localStorage.setItem("theme", val); //保存选中的主题色
     },
     //获取本地保存的主题色
-    localtheme(){
+    localtheme() {
       if (localStorage.getItem("theme") != null) {
-        this.themeChange(localStorage.getItem("theme"))
+        this.themeChange(localStorage.getItem("theme"));
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -47,26 +43,47 @@ export default {
 @import "@/styles/element-variables.scss";
 $theme: var(theme);
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  #nav {
-    padding: 30px;
-    a {
-      font-weight: bold;
-      color: #2c3e50;
-
-      &.router-link-exact-active {
-        color: #42b983;
-      }
-    }
+  font-size: 12px;
+}
+@media screen and (max-width: 1200px) {
+  #app {
+    font-size: 12px;
   }
-  .box {
-    width: 100px;
-    height: 100px;
-    background-color: $UN_theme_main;
+}
+@media screen and (max-width: 800px) {
+  #app {
+    font-size: 7px;
+  }
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.w {
+  width: 100rem;
+  margin: 0 auto;
+}
+#app {
+  margin: 0 auto;
+  padding: 0;
+  min-width: 600px;
+}
+li {
+  list-style: none;
+}
+a {
+  text-decoration-line: none;
+}
+#nav {
+  padding: 30px;
+  a {
+    font-weight: bold;
+    color: #2c3e50;
+
+    &.router-link-exact-active {
+      color: #42b983;
+    }
   }
 }
 </style>
