@@ -1,7 +1,7 @@
 //nor.js是不需要token的请求拦截器
 import axios from 'axios'
 // 配置请求的基准URL地址
-axios.defaults.baseURL = 'http://139.155.247.54:8888'
+axios.defaults.baseURL = '/api'
 
 //axios设置请求拦截器
 axios.interceptors.request.use(config => {

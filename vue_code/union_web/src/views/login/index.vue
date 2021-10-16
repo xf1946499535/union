@@ -54,6 +54,7 @@
 <script>
 // import router from "";
 import { login } from "@/api/loginAPI";
+import { setssoLocal } from "@/utils/sso";
 export default {
   data() {
     var checkAccount = (rule, value, callback) => {
@@ -72,12 +73,12 @@ export default {
     return {
       ruleForm: {
         pwd: "",
-        account: ""
+        account: "",
       },
       rules: {
         pwd: [{ validator: validatePass, trigger: "blur" }],
-        account: [{ validator: checkAccount, trigger: "blur" }]
-      }
+        account: [{ validator: checkAccount, trigger: "blur" }],
+      },
     };
   },
   methods: {
@@ -85,22 +86,23 @@ export default {
     tokencheck() {},
 
     loginsubmit(formName) {
-      this.$refs[formName].validate(valid => {
+      this.$refs[formName].validate((valid) => {
         if (valid) {
           var query = {
             admin_name: this.ruleForm.account,
-            admin_password: this.ruleForm.pwd
+            admin_password: this.ruleForm.pwd,
           };
           login(query)
-            .then(res => {
+            .then((res) => {
               localStorage.setItem("token", res.data.token);
+              setssoLocal(res.data.token);
               sessionStorage.setItem("me", JSON.stringify(res.data.data));
               this.$router.push("/");
             })
-            .catch(err => {
+            .catch((err) => {
               this.$notify.error({
                 title: "登陆失败",
-                message: "请检查用户名和密码是否正确"
+                message: "请检查用户名和密码是否正确",
               });
               console.log("error submit!!");
             });
@@ -109,8 +111,8 @@ export default {
           return false;
         }
       });
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss">

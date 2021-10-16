@@ -54,6 +54,8 @@
 <script>
 // import router from "";
 import { login } from "@/api/loginAPI";
+import { setssoLocal } from "@/utils/sso";
+
 export default {
   data() {
     var checkAccount = (rule, value, callback) => {
@@ -94,6 +96,7 @@ export default {
           login(query)
             .then(res => {
               localStorage.setItem("token", res.data.token);
+              setssoLocal(res.data.token);
               sessionStorage.setItem("me", JSON.stringify(res.data.data));
               this.$router.push("/");
             })
