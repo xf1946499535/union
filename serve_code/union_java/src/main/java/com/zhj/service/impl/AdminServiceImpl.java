@@ -39,7 +39,7 @@ public class AdminServiceImpl implements AdminService {
             String token = Token.getTokenByRandom();
             Jedis jedis = new Jedis("127.0.0.1",6379);
             jedis.set(token,resultAdmin.getId().toString());
-            jedis.expire(token,300);
+            jedis.expire(token,1200);
             return new Result().success(1,"登陆成功",token,resultAdmin);
         }
     }

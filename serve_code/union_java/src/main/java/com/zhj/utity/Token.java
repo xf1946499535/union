@@ -37,7 +37,7 @@ public class Token {
         Jedis jedis = new Jedis("127.0.0.1",6379);
         if (StringUtils.hasLength(jedis.get(token))){
 
-            jedis.expire(token,300);
+            jedis.expire(token,1200);
             return true;
         }else {
             throw new RuntimeException("找不到对应的token值");
