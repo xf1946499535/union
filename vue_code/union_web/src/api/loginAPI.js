@@ -1,7 +1,7 @@
-import axios from "@/utils/http";
+import n_axios from "@/utils/nor";
+// import axios from "axios"
 
-
-export const querynewdetall  = (query) => {
+export const querynewdetall = (query) => {
     return axios.request({
         url: 'small4/shop/goods/detail',
         method: 'get',
@@ -9,10 +9,10 @@ export const querynewdetall  = (query) => {
     })
 }
 
-export const update  = (data) => {
-  return axios.request({
-      url: 'small4/shop/goods/detail',
-      method: 'post',
-      data: data
-  })
+export const login = (data) => {
+    return n_axios.request({
+        url: '/admin/login',
+        method: 'post',
+        data: data
+    })
 }
