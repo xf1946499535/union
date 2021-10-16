@@ -21,5 +21,7 @@ public interface AdminandwoDao {
     Adminandwo getAdminIdAndNameByWoOne_id(int id);
 
      int  delete(List<Integer> id);
+
+     Adminandwo getAdminIdAndNameByAll(int wo_id,int admin_id);
 }
 

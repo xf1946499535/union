@@ -13,4 +13,5 @@ public class Status {
     int id;
     int status;
     boolean flag;
+    int admin_id;
 }

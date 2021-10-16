@@ -35,4 +35,8 @@ public interface WoService {
 
     int changeStatus(int id,int newStaus);
 
+    Boolean handlerOfAdmin(int wo_id,int admin_id);
+
+    int deleteFromWoByLogical(int id);
+
 }

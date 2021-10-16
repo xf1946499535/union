@@ -81,6 +81,7 @@ public class WoServiceImpl implements WoService {
            adminandwoDao.insert(add);
        }
 
+        woDao.updateWoInfoById(wo);
 
 //        for (Adminandwo adminandwo : list) {
 //            System.out.println(adminandwo.toString());
@@ -114,11 +115,33 @@ public class WoServiceImpl implements WoService {
     public List<Wo> queryAll(Wo wo) {
         List<Wo> result =  woDao.queryAll(wo);
         for (Wo wo1 : result) {
-           wo1.setHandlers(woDao.getAdminIdAndNameByWo_id(wo1.getId()));
-           wo1.setHandler(woDao.getAdminIdAndNameByWoOne_id(wo.getHandler_id()));
+            wo1.setHandler(woDao.getAdminIdAndNameByWoOne_id(wo.getHandler_id()));
+            wo1.setHandler_id(wo.getHandler_id());
+            wo1.setHandlers(woDao.getAdminIdAndNameByWo_id(wo1.getId()));
+            wo1.setProject_info(woDao.selectOfProject(wo1.getProject_id()));
         }
 
         return  result;
+    }
+
+
+    public  Boolean handlerOfAdmin(int wo_id,int admin_id){
+        System.out.println(wo_id);
+        System.out.println(admin_id);
+        List<Adminandwo> list = adminandwoDao.selectAdminAndWo(wo_id);
+        int flag = 0;
+        for (Adminandwo adminandwo : list) {
+            if (adminandwo.getAdmin_id() == admin_id){
+                flag = 1;
+            }
+        }
+
+        return  flag==0?false:true;
+    }
+
+    @Override
+    public int deleteFromWoByLogical(int id) {
+        return woDao.deleteFromWoByLogical(id);
     }
 
     /**

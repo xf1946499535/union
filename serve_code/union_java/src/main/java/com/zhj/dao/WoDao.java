@@ -1,6 +1,7 @@
 package com.zhj.dao;
 
 import com.zhj.entity.Handler;
+import com.zhj.entity.Project;
 import com.zhj.entity.Wo;
 import org.apache.ibatis.annotations.Param;
 
@@ -86,7 +87,13 @@ public interface WoDao {
 
     Handler getAdminIdAndNameByWoOne_id(int id);
 
+    Handler selectOfHander(int id);
+
     int changeStatus(int id,int newStaus);
+
+    Project selectOfProject(int id);
+
+    int deleteFromWoByLogical(int id);
 
 }
 

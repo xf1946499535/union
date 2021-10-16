@@ -15,6 +15,7 @@ import java.util.List;
  * @since 2021-09-25 20:15:43
  */
 @RestController
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RequestMapping("project")
 public class ProjectController {
     /**

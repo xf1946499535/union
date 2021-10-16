@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="9f6fbfbd-4973-4c79-8272-96dfe4035463" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/mybatis-plus/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mybatis-plus/.idea/compiler.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mybatis-plus/.idea/encodings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mybatis-plus/.idea/jarRepositories.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mybatis-plus/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mybatis-plus/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mybatis-plus/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mybatis-plus/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mybatis-plus/src/main/java/com/zhj/controller/MybatisController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mybatis-plus/src/main/java/com/zhj/entity/User.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mybatis-plus/src/main/java/com/zhj/mapper/UserMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mybatis-plus/src/main/java/com/zhj/service/UserService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mybatis-plus/src/main/java/com/zhj/service/impl/UserServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mybatis-plus/src/main/java/com/zhj/test/MyGender.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mybatis-plus/src/main/java/com/zhj/test/MysqlGenerator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mybatis-plus/src/main/java/com/zhj/test/SampleTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mybatis-plus/src/main/resources/application.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/union_java/src/main/java/com/zhj/utity/WoUlity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/union_java/src/main/java/com/zhj/controller/ProjectController.java" beforeDir="false" afterPath="$PROJECT_DIR$/union_java/src/main/java/com/zhj/controller/ProjectController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/union_java/src/main/java/com/zhj/controller/WoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/union_java/src/main/java/com/zhj/controller/WoController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/union_java/src/main/java/com/zhj/dao/AdminandwoDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/union_java/src/main/java/com/zhj/dao/AdminandwoDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/union_java/src/main/java/com/zhj/dao/WoDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/union_java/src/main/java/com/zhj/dao/WoDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/union_java/src/main/java/com/zhj/entity/Result.java" beforeDir="false" afterPath="$PROJECT_DIR$/union_java/src/main/java/com/zhj/entity/Result.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/union_java/src/main/java/com/zhj/entity/Status.java" beforeDir="false" afterPath="$PROJECT_DIR$/union_java/src/main/java/com/zhj/entity/Status.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/union_java/src/main/java/com/zhj/entity/Wo.java" beforeDir="false" afterPath="$PROJECT_DIR$/union_java/src/main/java/com/zhj/entity/Wo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/union_java/src/main/java/com/zhj/service/WoService.java" beforeDir="false" afterPath="$PROJECT_DIR$/union_java/src/main/java/com/zhj/service/WoService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/union_java/src/main/java/com/zhj/service/impl/AdminServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/union_java/src/main/java/com/zhj/service/impl/AdminServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/union_java/src/main/java/com/zhj/service/impl/WoServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/union_java/src/main/java/com/zhj/service/impl/WoServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/union_java/src/main/java/com/zhj/utity/Token.java" beforeDir="false" afterPath="$PROJECT_DIR$/union_java/src/main/java/com/zhj/utity/Token.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/union_java/src/main/resources/mapper/AdminandwoDao.xml" beforeDir="false" afterPath="$PROJECT_DIR$/union_java/src/main/resources/mapper/AdminandwoDao.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/union_java/src/main/resources/mapper/WoDao.xml" beforeDir="false" afterPath="$PROJECT_DIR$/union_java/src/main/resources/mapper/WoDao.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/union_java/target/classes/com/zhj/controller/ProjectController.class" beforeDir="false" afterPath="$PROJECT_DIR$/union_java/target/classes/com/zhj/controller/ProjectController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/union_java/target/classes/com/zhj/controller/WoController.class" beforeDir="false" afterPath="$PROJECT_DIR$/union_java/target/classes/com/zhj/controller/WoController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/union_java/target/classes/com/zhj/dao/AdminandwoDao.class" beforeDir="false" afterPath="$PROJECT_DIR$/union_java/target/classes/com/zhj/dao/AdminandwoDao.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/union_java/target/classes/com/zhj/dao/WoDao.class" beforeDir="false" afterPath="$PROJECT_DIR$/union_java/target/classes/com/zhj/dao/WoDao.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/union_java/target/classes/com/zhj/entity/Result.class" beforeDir="false" afterPath="$PROJECT_DIR$/union_java/target/classes/com/zhj/entity/Result.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/union_java/target/classes/com/zhj/entity/Status.class" beforeDir="false" afterPath="$PROJECT_DIR$/union_java/target/classes/com/zhj/entity/Status.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/union_java/target/classes/com/zhj/entity/Wo.class" beforeDir="false" afterPath="$PROJECT_DIR$/union_java/target/classes/com/zhj/entity/Wo.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/union_java/target/classes/com/zhj/service/WoService.class" beforeDir="false" afterPath="$PROJECT_DIR$/union_java/target/classes/com/zhj/service/WoService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/union_java/target/classes/com/zhj/service/impl/AdminServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/union_java/target/classes/com/zhj/service/impl/AdminServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/union_java/target/classes/com/zhj/service/impl/WoServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/union_java/target/classes/com/zhj/service/impl/WoServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/union_java/target/classes/com/zhj/utity/Token.class" beforeDir="false" afterPath="$PROJECT_DIR$/union_java/target/classes/com/zhj/utity/Token.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/union_java/target/classes/mapper/AdminandwoDao.xml" beforeDir="false" afterPath="$PROJECT_DIR$/union_java/target/classes/mapper/AdminandwoDao.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/union_java/target/classes/mapper/WoDao.xml" beforeDir="false" afterPath="$PROJECT_DIR$/union_java/target/classes/mapper/WoDao.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/union_java/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/union_java/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/union_java/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/union_java/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/union_java/target/union_java-0.0.1-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/union_java/target/union_java-0.0.1-SNAPSHOT.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/union_java/target/union_java-0.0.1-SNAPSHOT.jar.original" beforeDir="false" afterPath="$PROJECT_DIR$/union_java/target/union_java-0.0.1-SNAPSHOT.jar.original" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="localRepository" value="D:\javaee\apache-maven-3.8.1\resposibility" />
+        <option name="mavenHome" value="$PROJECT_DIR$/../../../javaee/apache-maven-3.8.1" />
+        <option name="userSettingsFile" value="D:\javaee\apache-maven-3.8.1\conf\settings.xml" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="1zVFpNmOQ2GYGmxGtiRqxlN0AoE" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="showExcludedFiles" value="false" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="settings.editor.selected.configurable" value="MavenSettings" />
+    <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="9f6fbfbd-4973-4c79-8272-96dfe4035463" name="Default Changelist" comment="" />
+      <created>1634225531405</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1634225531405</updated>
+      <workItem from="1634225532882" duration="640000" />
+      <workItem from="1634354979612" duration="210000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>
