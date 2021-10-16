@@ -29,11 +29,13 @@ public class Wo implements Serializable {
 
     private Date over_time;
 
-    private Integer project_id;
-
     private Date estimate_time;
 
     private int[] distributPeople;
+
+    private Integer project_id;
+
+    private Project project_info;
 
     private int handler_id;
 

@@ -27,6 +27,8 @@ public class Result<E> {
         return(new Result<E>(1,"成功"));
     }
 
+    public Result success(int code, String msg){return(new Result<E>(code,msg));}
+
     public Result erro() {
         return (new Result<E>(0,"失败"));
     }

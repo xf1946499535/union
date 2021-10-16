@@ -28,5 +28,9 @@
         SELECT wo_id ,admin_id  FROM union.adminandwo WHERE id = #{id}
     </select>
 
+    <select id="getAdminIdAndNameByAll" resultType="com.zhj.entity.Adminandwo">
+        SELECT wo_id ,admin_id  FROM union.adminandwo WHERE wo_id = #{wo_id} and admin_id = #{admin_id}
+    </select>
+
 </mapper>
 
