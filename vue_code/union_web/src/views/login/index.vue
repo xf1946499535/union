@@ -55,6 +55,7 @@
 // import router from "";
 import { login } from "@/api/loginAPI";
 import { setCookie, getCookie } from "@/utils/sso";
+import { getUserByToken } from "@/api/users";
 export default {
   created() {
     console.log(getCookie("token"));
@@ -97,10 +98,14 @@ export default {
           };
           login(query)
             .then(res => {
-              console.log(res);
+              // console.log(res);
               if (res.data.code == 1) {
-                setCookie("token",res.data.token,"5s");
-                this.$router.push("/");
+                setCookie("token", res.data.token, "1h");
+                getUserByToken().then(res => {
+                  console.log(res);
+                  sessionStorage.setItem("me", JSON.stringify(res.data.data));
+                  this.$router.push("/");
+                });
               }
             })
             .catch(err => {
