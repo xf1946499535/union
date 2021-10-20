@@ -11,7 +11,7 @@ export const querynewdetall = (query) => {
 
 export const login = (data) => {
     return n_axios.request({
-        url: '/admin/login',
+        url: '/union/login',
         method: 'post',
         data: data
     })

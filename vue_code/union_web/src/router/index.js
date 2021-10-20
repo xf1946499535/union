@@ -4,20 +4,22 @@ import VueRouter from 'vue-router'
 import {
   getUserByToken
 } from '@/api/users';
+import { getCookie } from "@/utils/sso";
+
 Vue.use(VueRouter)
 
 const routes = [{
-    path: '/',
-    name: 'Home',
-    component: () => import( /* webpackChunkName: "about" */ '../views/home/Home.vue'),
-  },
-  {
-    path: '/login',
-    name: 'login',
-    component: () => import( /* webpackChunkName: "about" */ '../views/login/index.vue')
-  }
+  path: '/',
+  name: 'Home',
+  component: () => import( /* webpackChunkName: "about" */ '../views/home/Home.vue'),
+},
+{
+  path: '/login',
+  name: 'login',
+  component: () => import( /* webpackChunkName: "about" */ '../views/login/index.vue')
+}
 ]
-
+sessionStorage.getItem('me')
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
@@ -27,22 +29,25 @@ router.beforeEach((to, from, next) => {
   // ...
   if (to.path == "/login") {
     next()
-  } else if (localStorage.getItem("token")) {
-    getUserByToken().then(res => {
-      sessionStorage.setItem('me', JSON.stringify(res.data))
-      next()
-    }).catch(err => {
-      console.log(err);
-      router.push({
-        path: '/login'
+  } else if (getCookie("token")) {
+    if (!sessionStorage.getItem('me')) {
+      getUserByToken().then(res=>{
+        sessionStorage.setItem('me',JSON.stringify(res.data.data))
+        next()
+      }).catch(err=>{
+        router.push({
+          path: '/login'
+        })
       })
-    })
-  } else if (!(sessionStorage.getItem("me") && localStorage.getItem("token"))) {
+    }
+    else{
+      next()
+    }
+    
+  } else {
     router.push({
       path: '/login'
     })
-  } else {
-    next()
   }
 })
 const originalPush = VueRouter.prototype.push

@@ -20,16 +20,20 @@
         >工单管理</el-menu-item
       >
     </el-menu>
-    <el-divider content-position="left">欢迎进入wo系统{{"     "+adminInfo.admin_name}}</el-divider>
+    <el-divider content-position="left">欢迎进入wo系统{{"     "+adminInfo.adminName}}</el-divider>
     <router-view></router-view>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
+import { delCookie } from "@/utils/sso";
 export default {
   name: "Home",
   components: {},
+  created(){
+    console.log(JSON.parse(sessionStorage.getItem('me')));
+  },
   data() {
     return {
       activeIndex: "1",
@@ -46,7 +50,7 @@ export default {
     //退出登录
     logout() {
       localStorage.setItem("me", null);
-      localStorage.setItem("token", null);
+      delCookie("token")
       //此处缺让服务器消除token
       this.$router.push("/login");
     },
