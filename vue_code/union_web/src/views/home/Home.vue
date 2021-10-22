@@ -8,19 +8,18 @@
     >
       <el-submenu index="1">
         <template slot="title">个人中心</template>
-        <el-menu-item index="1-1" @click="routeto('/wopreview')">我的工单</el-menu-item>
         <el-menu-item index="1-2">我的详情</el-menu-item>
         <el-menu-item index="1-5" @click="logout">退出账户</el-menu-item>
       </el-submenu>
-      <el-menu-item index="2" @click="routeto('/createWo')"
-        >新建工单</el-menu-item
+      <el-menu-item index="2" @click="routeto('/myApp')"
+        >我的应用</el-menu-item
       >
-      <el-menu-item index="3" disabled>消息中心</el-menu-item>
-      <el-menu-item index="4" @click="routeto('/woQuery')"
-        >工单管理</el-menu-item
+      <el-menu-item index="3" @click="routeto('/appStore')">应用商店</el-menu-item>
+      <el-menu-item index="4" @click="routeto('/appCT')"
+        >应用管理</el-menu-item
       >
     </el-menu>
-    <el-divider content-position="left">欢迎进入wo系统{{"     "+adminInfo.adminName}}</el-divider>
+    <el-divider content-position="left">欢迎进入union系统{{"     "+adminInfo.adminName}}</el-divider>
     <router-view></router-view>
   </div>
 </template>

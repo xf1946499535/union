@@ -99,14 +99,12 @@ export default {
           login(query)
             .then(res => {
               // console.log(res);
-              if (res.data.code == 1) {
                 setCookie("token", res.data.token, "1h");
                 getUserByToken().then(res => {
                   console.log(res);
                   sessionStorage.setItem("me", JSON.stringify(res.data.data));
                   this.$router.push("/");
                 });
-              }
             })
             .catch(err => {
               this.$notify.error({
