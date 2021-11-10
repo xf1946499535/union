@@ -5,7 +5,7 @@ let options = {
     //port:"3306",//可选，默认式3306
     user: "xiangfeng",
     password: "xiangfeng123123",
-    database: "chat"
+    database: "union"
 }
 
 
