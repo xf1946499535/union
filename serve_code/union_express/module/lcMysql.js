@@ -1,11 +1,11 @@
-﻿let mysql = require('mysql')
+let mysql = require('mysql')
 
 let options = {
-    host: "139.155.247.54",
+    host: "47.108.230.246",
     //port:"3306",//可选，默认式3306
     user: "xiangfeng",
     password: "xiangfeng123123",
-    database: "union"
+    database: "guloti"
 }
 
 
@@ -17,10 +17,7 @@ con.connect((err) => {
     if (err) {
         console.log(err)
     } else {
-        console.log('数据库连接成功');
-        // sqlQuery("select * from user").then((res,err)=>{
-        //   console.log(res);
-        // });
+        console.log('数据库连接成功')
     }
 })
 
