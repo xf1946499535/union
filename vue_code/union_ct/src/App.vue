@@ -41,7 +41,7 @@ export default defineComponent({
 #app {
   margin: 0 auto;
   padding: 0;
-  min-width: 1200px;
+  min-width: 800px;
 }
 
 li {
