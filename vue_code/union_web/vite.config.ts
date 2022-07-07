@@ -30,7 +30,7 @@ export default defineConfig({
     sourcemap: true
   },
   server: {
-    port: 8200,
+    port: 8201,
     host: '0.0.0.0',
     proxy: {
       '/api/': {
