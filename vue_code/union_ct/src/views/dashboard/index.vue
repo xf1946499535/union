@@ -1,5 +1,8 @@
 <template>
-  <div>工作台</div>
+  <div class="dashboard">
+    <router-view>
+    </router-view>
+  </div>
 </template>
 
 <script lang='ts'>
@@ -9,8 +12,6 @@ export default defineComponent({
   setup() {
     const data = reactive({})
     onBeforeMount(() => {
-      console.log('工作台');
-
       //2.组件挂载页面之前执行----onBeforeMount
     })
     onMounted(() => {
@@ -23,5 +24,8 @@ export default defineComponent({
 })
 
 </script>
-<style scoped lang='less'>
+<style lang='less'>
+.dashboard {
+  width: 100%
+}
 </style>

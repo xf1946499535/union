@@ -35,7 +35,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 
-app.use('/glt/users', usersRouter);
+app.use('/uc/users', usersRouter);
 
 
 

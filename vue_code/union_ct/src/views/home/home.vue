@@ -29,7 +29,6 @@
             我是少年
           </el-header>
           <el-main>
-            我是主题页面
             <router-view></router-view>
           </el-main>
         </el-container>
@@ -76,7 +75,7 @@ export default defineComponent({
 })
 
 </script>
-<style  lang='scss'>
+<style  lang='less'>
 .home {
   .aside {
     overflow: hidden;

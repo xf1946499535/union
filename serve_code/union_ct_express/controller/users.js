@@ -8,10 +8,34 @@ var sqltool = require('../module/sqltool');
 var fs = require('fs');
 var multer = require('multer');
 var path = require('path');
+var modusers = require('../module/users')
 var upload = multer({
     dest: 'upload_tmp/'
 });
 const users = {
+    //登录
+    async login(req, res, next) {
+        var str = "select * from user where account=?"
+        var user = (await sqlQuery(str, [req.body.account]))[0]
+        if (user && user.password == req.body.password) {
+            res.json({
+                code: 1,
+                data: {
+                    userid: user.id
+                },
+                message: "登陆成功",
+            })
+        } else {
+            res.json({
+                code: 0,
+                data: {
+                    userid: null
+                },
+                message: "登录失败",
+            })
+        }
+    },
+    //获取用户信息
     async getuser(req, res, next) {
         try {
             var str = 'select * from user'
@@ -19,7 +43,7 @@ const users = {
             var sqlres = await sqlQuery(str + term)
             sqlres[0].password = '******'
             res.status(200).json({
-                code: 20000,
+                code: 1,
                 message: "查询成功",
                 data: sqlres
             })

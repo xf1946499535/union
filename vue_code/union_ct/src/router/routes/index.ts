@@ -14,13 +14,22 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/',
     name: 'home',
-    component: () => import('@/views/home/home.vue'),
+    redirect: '/analysis',
+    meta: {
+      title: '主页',
+      requireLogin: true
+    },
+    component: () => import(/* webpackChunkName: "about" */ '@/views/home/home.vue'),
     children: Homeroutes
   },
-  { path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFind },
+  // { path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFind },
   {
     path: '/login',
     name: 'login',
+    meta: {
+      title: '登录页',
+      requireLogin: false
+    },
     component: () => import( /* webpackChunkName: "about" */ '@/views/login/login.vue'),
   },
 ]

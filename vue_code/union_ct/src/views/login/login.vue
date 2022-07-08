@@ -22,7 +22,7 @@
               <el-input type="password" show-password v-model="loginform.password" />
             </el-form-item>
             <el-form-item>
-              <el-button class="loginBtn" color="#626aef">登 录</el-button>
+              <el-button class="loginBtn" color="#626aef" @click="loginbtn">登 录</el-button>
             </el-form-item>
           </el-form>
           <el-form v-show="!isloginpage" :label-position="loginform" style="max-width: 460px" size="large">
@@ -43,7 +43,8 @@
 </template>
 
 <script lang='ts'>
-import { defineComponent, reactive, toRefs, onBeforeMount, onMounted } from 'vue'
+import { defineComponent, reactive, toRefs, onBeforeMount, onMounted, MethodOptions } from 'vue'
+import { login } from '@/apis/users'
 export default defineComponent({
   name: '',
   setup() {
@@ -53,7 +54,15 @@ export default defineComponent({
         password: ''
       },
       //注册页和登录页切换按钮
-      isloginpage: true
+      isloginpage: true,
+      loginbtn() {
+        login(data.loginform.account, data.loginform.password).then(res => {
+          sessionStorage.setItem('myid', res.data.userid)
+          console.log('登陆成功');
+        }, err => {
+          console.log('登陆失败');
+        })
+      }
     })
     onBeforeMount(() => {
       //2.组件挂载页面之前执行----onBeforeMount

@@ -32,24 +32,10 @@ router.post('/register', async function (req, res, next) {
 
 /*用户登录*/
 router.post('/login', async function (req, res, next) {
-  var str = "select * from user where account=?"
-  var user = (await sqlQuery(str, [req.body.account]))[0]
-  if (user && user.password == req.body.password) {
-    res.json({
-      code: 20000,
-      data: {
-        userid: user.id
-      },
-      message: "登陆成功",
-    })
-  } else {
-    res.json({
-      code: 20001,
-      data: {
-        userid: null
-      },
-      message: "登录失败",
-    })
+  try {
+    users.login(req, res, next)
+  } catch (error) {
+    next(error)
   }
 });
 
