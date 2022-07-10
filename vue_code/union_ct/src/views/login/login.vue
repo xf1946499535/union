@@ -44,10 +44,14 @@
 
 <script lang='ts'>
 import { defineComponent, reactive, toRefs, onBeforeMount, onMounted, MethodOptions } from 'vue'
+import { ElMessage } from 'element-plus'
 import { login } from '@/apis/users'
+import { userStore } from '@/store'
+import router from "@/router";
 export default defineComponent({
   name: '',
   setup() {
+    const userstore = userStore()
     const data = reactive({
       loginform: {
         account: '',
@@ -56,11 +60,17 @@ export default defineComponent({
       //注册页和登录页切换按钮
       isloginpage: true,
       loginbtn() {
-        login(data.loginform.account, data.loginform.password).then(res => {
+        login(data.loginform.account, data.loginform.password).then(async res => {
           sessionStorage.setItem('myid', res.data.userid)
-          console.log('登陆成功');
+          await userstore.setuser(res.data.userid)
+          console.log(userstore.getme);
+          ElMessage({
+            message: res.message,
+            type: 'success',
+          })
+          router.push('/analysis')
         }, err => {
-          console.log('登陆失败');
+          ElMessage.error(err.message)
         })
       }
     })

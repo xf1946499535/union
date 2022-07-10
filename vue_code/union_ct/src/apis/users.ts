@@ -11,4 +11,14 @@ export const login = (account: string, password: string): any => {
     }
   })
 }
+//获取单个用户基本信息
+export const getuser = (userid: number): any => {
+  return naxios.request({
+    url: '/uc/users/getuser',
+    method: 'get',
+    params: {
+      userid: userid,
+    }
+  })
+}
 

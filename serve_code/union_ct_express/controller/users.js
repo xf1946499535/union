@@ -28,24 +28,24 @@ const users = {
         } else {
             res.json({
                 code: 0,
-                data: {
-                    userid: null
-                },
-                message: "登录失败",
+                message: "登录失败，请检查账户密码是否正确",
             })
         }
     },
     //获取用户信息
+    /*
+    userid 用户id
+     */
     async getuser(req, res, next) {
         try {
             var str = 'select * from user'
-            var term = ` where id=${req.query.id}`
+            var term = ` where id=${req.query.userid}`
             var sqlres = await sqlQuery(str + term)
             sqlres[0].password = '******'
-            res.status(200).json({
+            res.json({
                 code: 1,
                 message: "查询成功",
-                data: sqlres
+                data: sqlres[0]
             })
         } catch (error) {
             next(error)

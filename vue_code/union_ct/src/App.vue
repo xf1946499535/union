@@ -3,10 +3,22 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, onMounted } from 'vue'
+import { userStore } from '@/store'
 
 export default defineComponent({
-  name: 'App'
+  name: 'App',
+  setup() {
+    const userstore = userStore()
+    if (sessionStorage.getItem('myid')) {
+      userstore.setuser(sessionStorage.getItem('myid'))
+      console.log('我初始化了');
+    }
+    onMounted(() => {
+      //3.组件挂载到页面之后执行-------onMounted
+
+    })
+  }
 })
 </script>
 

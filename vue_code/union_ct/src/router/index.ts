@@ -7,9 +7,7 @@ const router = createRouter({
   routes
 })
 router.beforeEach(function (to, from, next) {
-  console.log(sessionStorage.getItem("myid"));
   if (to.meta.requireLogin && !sessionStorage.getItem("myid")) {
-    console.log('请登录');
     router.push('/login')
   }
   next()
