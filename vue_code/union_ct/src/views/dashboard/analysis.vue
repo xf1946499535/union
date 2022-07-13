@@ -1,17 +1,13 @@
 <template>
-  <div>分析页{{ me.name }}</div>
+  <div>分析页</div>
 </template>
 
 <script lang='ts'>
 import { defineComponent, reactive, toRefs, onBeforeMount, onMounted } from 'vue'
-import { userStore } from '@/store'
-import { storeToRefs } from 'pinia'
+
 export default defineComponent({
   name: '',
   setup() {
-    const userstore = userStore()
-    const me = storeToRefs(userstore).me
-
     const data = reactive({
     })
     onBeforeMount(() => {
@@ -24,7 +20,7 @@ export default defineComponent({
     })
     return {
       ...toRefs(data),
-      me
+
     }
   },
 })

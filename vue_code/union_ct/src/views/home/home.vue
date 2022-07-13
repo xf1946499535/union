@@ -12,10 +12,11 @@
                     <template #title>
                       <span>{{ item.meta.title }}</span>
                     </template>
-                    <el-menu-item v-for="(childrenitem, index) in item.children" :key="index + 'asidelistitem'"
-                      :index="childrenitem.meta.code">{{ childrenitem.meta.title }}</el-menu-item>
+                    <el-menu-item @click="routeto(childrenitem.path)" v-for="(childrenitem, index) in item.children"
+                      :key="index + 'asidelistitem'" :index="childrenitem.meta.code">{{ childrenitem.meta.title }}
+                    </el-menu-item>
                   </el-sub-menu>
-                  <el-menu-item :index="item.meta.title" v-else>
+                  <el-menu-item :index="item.meta.title" @click="routeto(item.path)" v-else>
                     <span slot="title">{{ item.meta.title }}</span>
                   </el-menu-item>
                 </div>
@@ -26,7 +27,8 @@
         </el-aside>
         <el-container>
           <el-header>
-            我是少年
+            姓名:{{ me.name }}<br>
+            职务:{{ me.postName }}
           </el-header>
           <el-main>
             <router-view></router-view>
@@ -40,10 +42,23 @@
 <script lang='ts'>
 import { defineComponent, ref, reactive, computed, toRefs, onBeforeMount, onMounted } from 'vue'
 import routes from "@/router/routes/index";
-
+import router from "@/router";
+import { userStore } from '@/store'
+import { storeToRefs } from 'pinia'
 export default defineComponent({
   name: '',
   setup() {
+    const userstore = userStore()
+    const me = storeToRefs(userstore).me
+
+    const data = reactive({
+      //开启折叠过渡
+      iscolltran: true,
+      asidelist: routes[0].children.filter(item => {
+        // console.log(item);
+        return true
+      })
+    })
     const isCollapse = ref(true)
     const handleOpen = (key: string, keyPath: string[]) => {
       console.log(key, keyPath)
@@ -51,14 +66,10 @@ export default defineComponent({
     const handleClose = (key: string, keyPath: string[]) => {
       console.log(key, keyPath)
     }
-    const data = reactive({
-      //开启折叠过渡
-      iscolltran: true,
-      asidelist: routes[0].children.filter(item => {
-        console.log(item);
-        return true
-      })
-    })
+    const routeto = (path) => {
+      router.push(path)
+    }
+
     onBeforeMount(() => {
       // 2.组件挂载页面之前执行----onBeforeMount
     })
@@ -69,7 +80,9 @@ export default defineComponent({
       ...toRefs(data),
       isCollapse,
       handleOpen,
-      handleClose
+      handleClose,
+      routeto,
+      me
     }
   },
 })

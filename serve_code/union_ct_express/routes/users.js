@@ -11,20 +11,7 @@ var users = require('../controller/users')
 /*用户注册*/
 router.post('/register', async function (req, res, next) {
   try {
-    //查重
-    if (await sqltool.cnki('user', 'account', req.body.account)) {
-      res.json({
-        code: 20001,
-        message: "该账号已被注册",
-      })
-    } else {
-      var str = 'insert into user(account,password,name) values(?,?,?);'
-      await sqlQuery(str, [req.body.account, req.body.password, req.body.name])
-      res.json({
-        code: 20000,
-        message: "注册成功",
-      })
-    }
+    users.register(req, res, next)
   } catch (error) {
     next(error)
   }
@@ -38,7 +25,7 @@ router.post('/login', async function (req, res, next) {
     next(error)
   }
 });
-
+/*获取单个用户基本信息 */
 router.get('/getuser', async function (req, res, next) {
   try {
     users.getuser(req, res, next)

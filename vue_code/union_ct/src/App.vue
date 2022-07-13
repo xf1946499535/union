@@ -12,7 +12,6 @@ export default defineComponent({
     const userstore = userStore()
     if (sessionStorage.getItem('myid')) {
       userstore.setuser(sessionStorage.getItem('myid'))
-      console.log('我初始化了');
     }
     onMounted(() => {
       //3.组件挂载到页面之后执行-------onMounted

@@ -25,15 +25,18 @@
               <el-button class="loginBtn" color="#626aef" @click="loginbtn">登 录</el-button>
             </el-form-item>
           </el-form>
-          <el-form v-show="!isloginpage" :label-position="loginform" style="max-width: 460px" size="large">
+          <el-form v-show="!isloginpage" :label-position="registerform" style="max-width: 460px" size="large">
             <el-form-item>
-              <el-input v-model="loginform.account" />
+              <el-input placeholder="请输入注册账号" v-model="registerform.account" />
             </el-form-item>
             <el-form-item>
-              <el-input type="password" show-password v-model="loginform.password" />
+              <el-input type="password" placeholder="请输入密码" show-password v-model="registerform.password" />
             </el-form-item>
             <el-form-item>
-              <el-button class="loginBtn" color="#626aef">注 册</el-button>
+              <el-input type="text" placeholder="请输入真实姓名" v-model="registerform.name" />
+            </el-form-item>
+            <el-form-item>
+              <el-button class="loginBtn" @click="registerbtn" color="#626aef">注 册</el-button>
             </el-form-item>
           </el-form>
         </div>
@@ -45,7 +48,7 @@
 <script lang='ts'>
 import { defineComponent, reactive, toRefs, onBeforeMount, onMounted, MethodOptions } from 'vue'
 import { ElMessage } from 'element-plus'
-import { login } from '@/apis/users'
+import { login, register } from '@/apis/users'
 import { userStore } from '@/store'
 import router from "@/router";
 export default defineComponent({
@@ -56,6 +59,11 @@ export default defineComponent({
       loginform: {
         account: '',
         password: ''
+      },
+      registerform: {
+        account: '',
+        password: '',
+        name: '',
       },
       //注册页和登录页切换按钮
       isloginpage: true,
@@ -70,6 +78,16 @@ export default defineComponent({
           })
           router.push('/analysis')
         }, err => {
+          ElMessage.error(err.message)
+        })
+      },
+      registerbtn() {
+        register(data.registerform.account, data.registerform.password, data.registerform.name).then(res => {
+          ElMessage({
+            message: res.message,
+            type: 'success',
+          })
+        },err=>{
           ElMessage.error(err.message)
         })
       }

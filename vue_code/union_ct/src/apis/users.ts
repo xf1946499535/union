@@ -11,6 +11,18 @@ export const login = (account: string, password: string): any => {
     }
   })
 }
+//提交注册申请
+export const register = (account: string, password: string, name: string): any => {
+  return naxios.request({
+    url: '/uc/users/register',
+    method: 'post',
+    data: {
+      account: account,
+      password: password,
+      name: name
+    }
+  })
+}
 //获取单个用户基本信息
 export const getuser = (userid: number): any => {
   return naxios.request({
