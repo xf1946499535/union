@@ -1,17 +1,6 @@
-const {
-    json
-} = require('express');
-var express = require('express');
-var router = express.Router();
 var sqlQuery = require('../module/lcMysql')
 var sqltool = require('../module/sqltool');
-var fs = require('fs');
-var multer = require('multer');
-var path = require('path');
 var modusers = require('../module/users')
-var upload = multer({
-    dest: 'upload_tmp/'
-});
 const users = {
     //登录
     async login(req, res, next) {
@@ -33,7 +22,6 @@ const users = {
             })
             return false
         }
-
         res.json({
             code: 1,
             data: {
@@ -72,8 +60,8 @@ const users = {
     async getuser(req, res, next) {
         try {
             var str = 'select user.*,post.*,dep.* from user,post,dep'
-            var term = ` where user.userid=${req.query.userid} and user.postid=post.postid and dep.depid=post.depid`
-            var sqlres = await sqlQuery(str + term)
+            var term = ` where user.userid=? and user.postid=post.postid and dep.depid=post.depid`
+            var sqlres = await sqlQuery(str + term, [req.query.userid])
             sqlres[0].password = '******'
             res.json({
                 code: 1,
@@ -85,31 +73,5 @@ const users = {
             next(error)
         }
     },
-
-    //修改头像
-    async editUserheader(req, res, next) {
-        try {
-            console.log(req.files[0]); // 上传的文件信息
-            var des_file = "./upload/" + req.files[0].originalname;
-            fs.readFile(req.files[0].path, function (err, data) {
-                fs.writeFile(des_file, data, function (err) {
-                    if (err) {
-                        console.log(err);
-                        fs.unlinkSync(req.files[0].path);
-                    } else {
-                        response = {
-                            message: 'File uploaded successfully',
-                            filename: req.files[0].originalname
-                        };
-                        console.log(response);
-                        fs.unlinkSync(req.files[0].path);
-                        res.end(JSON.stringify(response));
-                    }
-                });
-            });
-        } catch (error) {
-            next(error)
-        }
-    }
 }
 module.exports = users

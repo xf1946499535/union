@@ -5,7 +5,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const cors = require('cors')
 var usersRouter = require('./routes/users');
-
+let accountRouter = require('./routes/account')
 
 
 
@@ -36,7 +36,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 app.use('/uc/users', usersRouter);
-
+app.use('/uc/account', accountRouter)
 
 
 

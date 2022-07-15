@@ -33,6 +33,38 @@ const routes: RouteRecordRaw[] = [
         },
       }
     ]
+  },
+  {
+    path: '/affairs',
+    name: 'affairs',
+    redirect: '/analysis',
+    component: () => import('@/views/affairs/index.vue'),
+    meta: {
+      title: '行政管理',
+      code: '2',
+      requireLogin: true
+    },
+    children: [
+      {
+        path: '/accountapply',
+        name: 'accountapply',
+        component: () => import('@/views/affairs/accountapply.vue'),
+        meta: {
+          title: '注册审批',
+          code: '2-1',
+          requireLogin: true
+        },
+      }, {
+        path: '/accountct',
+        name: 'accountct',
+        component: () => import('@/views/affairs/accountct.vue'),
+        meta: {
+          title: '账号管理',
+          code: '2-2',
+          requireLogin: true
+        },
+      }
+    ]
   }
 ]
 export default routes

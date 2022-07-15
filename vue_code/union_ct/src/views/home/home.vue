@@ -5,8 +5,8 @@
         <el-aside class="aside" width='200px'>
           <el-row class="tac" width="120px">
             <el-col :span="24">
-              <el-menu default-active="1" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose"
-                background-color="rgb(247, 248, 252)">
+              <el-menu :default-active="_useroute.meta.code" class="el-menu-vertical-demo" @open="handleOpen"
+                @close="handleClose" background-color="rgb(247, 248, 252)">
                 <div v-for="(item, index) in asidelist" :key="index + 'asidelist'">
                   <el-sub-menu :index="item.meta.code" v-if="item.children">
                     <template #title>
@@ -43,6 +43,7 @@
 import { defineComponent, ref, reactive, computed, toRefs, onBeforeMount, onMounted } from 'vue'
 import routes from "@/router/routes/index";
 import router from "@/router";
+import { useRoute } from 'vue-router'
 import { userStore } from '@/store'
 import { storeToRefs } from 'pinia'
 export default defineComponent({
@@ -51,20 +52,22 @@ export default defineComponent({
     const userstore = userStore()
     const me = storeToRefs(userstore).me
 
+
     const data = reactive({
+      //获取当前页面路由
+      _useroute: useRoute(),
       //开启折叠过渡
       iscolltran: true,
       asidelist: routes[0].children.filter(item => {
-        // console.log(item);
         return true
       })
     })
     const isCollapse = ref(true)
     const handleOpen = (key: string, keyPath: string[]) => {
-      console.log(key, keyPath)
+
     }
     const handleClose = (key: string, keyPath: string[]) => {
-      console.log(key, keyPath)
+
     }
     const routeto = (path) => {
       router.push(path)
@@ -94,7 +97,5 @@ export default defineComponent({
     overflow: hidden;
     // transition-delay: 0.5s;
   }
-
-
 }
 </style>

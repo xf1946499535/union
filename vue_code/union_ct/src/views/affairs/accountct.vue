@@ -1,6 +1,5 @@
 <template>
-  <div class="dashboard">
-  </div>
+  <div>账号管理</div>
 </template>
 
 <script lang='ts'>
@@ -10,6 +9,7 @@ export default defineComponent({
   setup() {
     const data = reactive({})
     onBeforeMount(() => {
+
       //2.组件挂载页面之前执行----onBeforeMount
     })
     onMounted(() => {
@@ -22,8 +22,5 @@ export default defineComponent({
 })
 
 </script>
-<style lang='less'>
-.dashboard {
-  width: 100%
-}
+<style scoped lang='less'>
 </style>
