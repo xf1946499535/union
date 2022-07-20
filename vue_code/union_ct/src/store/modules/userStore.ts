@@ -1,13 +1,18 @@
 import { defineStore } from 'pinia'
 import { getuser } from '@/apis/users'
+type meType = {
+  userid: number,
+  name: string,
+  postName: string,
+}
 const useStore = defineStore('main', {
   // arrow function recommended for full type inference
   state: () => ({
     // all these properties will have their type inferred automatically
-    me: null
+    me: <meType>null
   }),
   getters: {
-    getme(): any {
+    getme(): meType {
       return this.me
     }
   },

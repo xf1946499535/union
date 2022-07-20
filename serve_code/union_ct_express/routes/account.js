@@ -12,4 +12,13 @@ router.get('/reapplist', async function (req, res, next) {
   }
 });
 
+//管理员处理账号申请表
+router.post('/dealrlist', async function (req, res, next) {
+  try {
+    account.dealrlist(req, res, next)
+  } catch (error) {
+    next(error)
+  }
+});
+
 module.exports = router;

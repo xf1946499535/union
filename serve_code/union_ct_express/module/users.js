@@ -25,7 +25,26 @@ const modusers = {
         return {
             check: sqlres.enable == 1
         }
+    },
+    //账号删除
+    /*
+    useridlist 账户id数组
+     */
+    async delAccount(useridlist) {
+        let str = `update user set isdel=1 where userid in (${useridlist.join(',')})`
+        let sqlres = await sqlQuery(str)
+    },
+    //账户启用/停用
+    /*
+    useridlist 账户id数组
+     */
+    async enableAccount(useridlist, isenable) {
+        let str = `update user set enable=${isenable} where userid in (${useridlist.join(',')})`
+        let sqlres = await sqlQuery(str)
     }
+    //用户账号查重
+    /*要求在isdel=0的情况下不能用户重复，无论用户是否启用
+     */
 }
 
 module.exports = modusers

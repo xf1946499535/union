@@ -5,7 +5,7 @@
         <el-aside class="aside" width='200px'>
           <el-row class="tac" width="120px">
             <el-col :span="24">
-              <el-menu :default-active="_useroute.meta.code" class="el-menu-vertical-demo" @open="handleOpen"
+              <el-menu :default-active="nowuseroute.meta.code" class="el-menu-vertical-demo" @open="handleOpen"
                 @close="handleClose" background-color="rgb(247, 248, 252)">
                 <div v-for="(item, index) in asidelist" :key="index + 'asidelist'">
                   <el-sub-menu :index="item.meta.code" v-if="item.children">
@@ -29,6 +29,7 @@
           <el-header>
             姓名:{{ me.name }}<br>
             职务:{{ me.postName }}
+            <el-divider />
           </el-header>
           <el-main>
             <router-view></router-view>
@@ -51,11 +52,9 @@ export default defineComponent({
   setup() {
     const userstore = userStore()
     const me = storeToRefs(userstore).me
-
-
     const data = reactive({
       //获取当前页面路由
-      _useroute: useRoute(),
+      nowuseroute: useRoute(),
       //开启折叠过渡
       iscolltran: true,
       asidelist: routes[0].children.filter(item => {

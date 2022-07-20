@@ -11,3 +11,16 @@ export const reapplist = (reqnum: number = 10, pagenum: number = 1): any => {
     }
   })
 }
+//注册申请列表审批
+
+export const dealrlist = (deallist, dealres, dealuserid): any => {
+  return naxios.request({
+    url: '/uc/account/dealrlist',
+    method: 'post',
+    data: {
+      deallist: deallist,
+      dealres: dealres,
+      dealuserid: dealuserid
+    }
+  })
+}

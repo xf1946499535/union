@@ -28,6 +28,42 @@ const account = {
       next(error)
     }
 
+  },
+
+  //处理注册申请表
+  /*
+  deallist 进行处理的申请列表
+  dealres 处理结果 布尔值
+  dealuserid 处理人userid
+   */
+  async dealrlist(req, res, next) {
+    let time = new Date()
+    let data = req.body
+    let applyidlist = req.body.deallist.map(item => {
+      return item.accountApplyid
+    })
+    let applyuseridlist = req.body.deallist.map(item => {
+      return item.applyUserid
+    })
+    data.dealres = data.dealres ? 1 : 0 //转化为1和0
+    let dealuser = (await sqlQuery(`select * from user where userid=${data.dealuserid}`))[0]
+    let sqlstr = `UPDATE accountApply set dealDate='${time.toLocaleString()}',
+    dealUsername='${dealuser.name}',dealuserid =${data.dealuserid},isdeal=1,dealRes=${data.dealres}
+     WHERE accountApplyid in (${applyidlist.join(',')})`
+    let sqlres = await sqlQuery(sqlstr)
+
+    //根据审批结果删除用户表中的账户
+    if (!data.dealres) {
+      modusers.delAccount(applyuseridlist)
+    } else {
+      modusers.enableAccount(applyuseridlist, 1)
+    }
+
+    res.json({
+      code: 1,
+      data: sqlstr,
+      message: '处理成功'
+    })
   }
 }
 module.exports = account
