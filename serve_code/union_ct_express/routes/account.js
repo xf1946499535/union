@@ -21,4 +21,12 @@ router.post('/dealrlist', async function (req, res, next) {
   }
 });
 
+//获取账号注册申请列表的审批历史
+router.get('/reapplistHistory', async function (req, res, next) {
+  try {
+    account.reapplistHistory(req, res, next)
+  } catch (error) {
+    next(error)
+  }
+});
 module.exports = router;

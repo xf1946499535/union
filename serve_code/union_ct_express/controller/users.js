@@ -32,10 +32,16 @@ const users = {
 
     },
     //账户注册
+    /*
+    account 账号
+    password 密码
+    name 用户姓名
+     */
     async register(req, res, next) {
         const date = new Date()
+        let data = req.body
         //查重
-        if (await sqltool.cnki('user', 'account', req.body.account)) {
+        if (await modusers.accountcnik(data.account)) {
             res.json({
                 code: 0,
                 message: "该账号已被注册",

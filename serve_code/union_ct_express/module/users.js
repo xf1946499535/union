@@ -41,10 +41,15 @@ const modusers = {
     async enableAccount(useridlist, isenable) {
         let str = `update user set enable=${isenable} where userid in (${useridlist.join(',')})`
         let sqlres = await sqlQuery(str)
-    }
+    },
     //用户账号查重
-    /*要求在isdel=0的情况下不能用户重复，无论用户是否启用
+    /*
+    要求在isdel=0的情况下不能用户重复，无论用户是否启用
      */
+    async accountcnik(account) {
+        let sqlres = (await sqlQuery(`select userid from user where account='${account}' and isdel=0`))
+        return sqlres.length > 0 ? true : false
+    }
 }
 
 module.exports = modusers

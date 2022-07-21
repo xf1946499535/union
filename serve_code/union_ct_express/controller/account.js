@@ -27,7 +27,6 @@ const account = {
     } catch (error) {
       next(error)
     }
-
   },
 
   //处理注册申请表
@@ -64,6 +63,33 @@ const account = {
       data: sqlstr,
       message: '处理成功'
     })
-  }
+  },
+
+  //获取账号注册申请列表的审批历史
+  /*
+  pagenum 请求的页面
+  reqnum 请求数量
+   */
+  async reapplistHistory(req, res, next) {
+    try {
+      let data = req.query
+      let sqlstr = `select accountApply.*,user.account from accountApply,user where isdeal=1 and user.userid=applyUserid order by accountApply.accountApplyid desc limit ${(data.pagenum - 1)*data.reqnum},${data.reqnum}`
+      let sqlres = await sqlQuery(sqlstr)
+      //获取记录总数
+      let sqlstr2 = `select count(1) from accountApply where isdeal=1`
+      let totalnum = (await sqlQuery(sqlstr2))[0]['count(1)']
+      res.json({
+        code: 1,
+        data: {
+          list: sqlres,
+          //记录总数
+          totalnum: totalnum
+        },
+        message: '请求成功'
+      })
+    } catch (error) {
+      next(error)
+    }
+  },
 }
 module.exports = account

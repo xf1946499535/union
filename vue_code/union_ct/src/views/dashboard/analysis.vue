@@ -12,7 +12,6 @@ export default defineComponent({
     })
     onBeforeMount(() => {
       console.log('分析夜');
-
       //2.组件挂载页面之前执行----onBeforeMount
     })
     onMounted(() => {
